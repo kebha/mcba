@@ -1,27 +1,42 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace s3844648_a2.Models
+namespace s3844648_a2.Models;
+
+public enum TransactionType
 {
-    public class Transaction
-    {
-        public int TransactionID { get; set; }
+    Deposit = 1,
+    Withdraw = 2,
+    Transfer = 3,
+    ServiceCharge = 4,
+    BillPay = 5
+}
 
+public class Transaction
+{
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int TransactionID { get; set; }
 
-        public string TransactionType { get; set; }
+    [Required]
+    public TransactionType TransactionType { get; set; }
 
+    [Required]
+    public int AccountID { get; set; }
+    public virtual Account Account { get; set; }
 
-        public int AccountNumber { get; set; }
+    [ForeignKey(nameof(DestinationAccount))]
+    public int? DestinationAccountID { get; set; }
+    public virtual Account DestinationAccount { get; set; }
 
+    [Required]
+    [Column(TypeName = "money")]
+    [DataType(DataType.Currency)]
+    [DisplayFormat(DataFormatString = "{0:C")]
+    public decimal Amount { get; set; }
 
-        public int DestinationAccountNumber { get; set; }
+    [StringLength(30)]
+    public string Comment { get; set; }
 
-
-        public decimal Amount { get; set; }
-
-
-        public string Comment { get; set; }
-
-
-        public DateTime TransactionTimeUtc { get; set; }
-    }
+    [Required]
+    public DateTime TransactionTimeUtc { get; set; }
 }
