@@ -1,22 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace s3844648_a2.Models;
 
-public enum AccountType
+/*public enum AccountType
 {
     Checking = 1,
     Saving = 2
-}
+}*/
+
 public class Account
 {
+    [JsonProperty("AccountNumber")]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Display(Name = "Account Number")]
     public int AccountID { get; set; }
 
     [Required]
     [Display(Name = "Type")]
-    public AccountType AccountType { get; set; }
+    public string AccountType { get; set; }
 
     public int CustomerID { get; set; }
     public virtual Customer Customer { get; set; }

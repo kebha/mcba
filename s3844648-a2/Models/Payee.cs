@@ -28,7 +28,7 @@ public class Payee
     [StringLength(4)]
     public string PostCode { get; set; }
 
-    
+    [Required]
     [StringLength(14)]
     public string Phone { get; set; }
 }
