@@ -15,12 +15,12 @@ namespace s3844648_a2.Migrations
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TFN = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Suburb = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    PostCode = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false)
+                    TFN = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Suburb = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    PostCode = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace s3844648_a2.Migrations
                 columns: table => new
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false),
-                    AccountType = table.Column<int>(type: "int", nullable: false),
+                    AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "money", nullable: false)
                 },
@@ -120,7 +120,7 @@ namespace s3844648_a2.Migrations
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     DestinationAccountID = table.Column<int>(type: "int", nullable: true),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     TransactionTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -157,7 +157,8 @@ namespace s3844648_a2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_CustomerID",
                 table: "Logins",
-                column: "CustomerID");
+                column: "CustomerID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountID",
