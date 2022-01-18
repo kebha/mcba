@@ -40,7 +40,7 @@ public static class SeedData
                 PostCode = customer.PostCode
             });
 
-            /*
+            
             // Insert Login
             customer.Login.CustomerID = customer.CustomerID;
             context.Logins.Add(customer.Login);
@@ -48,27 +48,36 @@ public static class SeedData
             foreach (var account in customer.Accounts)
             {
                 // Insert Account
-                account.AccountType = account.AccountType.Equals("S") ? "Savings" : "Checking";
                 account.Balance = 0;
                 foreach (var transaction in account.Transactions)
                 {
                     account.Balance += transaction.Amount;
                 }
-                context.Accounts.Add(account);
+                context.Accounts.Add(new Account()
+                {
+                    AccountID = account.AccountID,
+                    AccountType = account.AccountType.Equals("S") ? "Savings" : "Checking",
+                    CustomerID = account.CustomerID,
+                    Balance = account.Balance
+                });
 
-                //int counter = 0;
+                int i = 0;
                 foreach (var transaction in account.Transactions)
                 {
                     // Insert Transactions
-                    //transaction.TransactionID = counter;
-                    //counter++;
-                    transaction.AccountID = account.AccountID;
-                    transaction.TransactionType = TransactionType.Deposit;
-                    context.Transactions.Add(transaction);
+                    context.Transactions.Add(new Transaction
+                    {
+                        TransactionID = i,
+                        AccountID = account.AccountID,
+                        TransactionType = TransactionType.Deposit,
+                        Amount = transaction.Amount,
+                        Comment = transaction.Comment,
+                        TransactionTimeUtc = transaction.TransactionTimeUtc
+                    });
+                    i++;
                 }
-            }*/
+            }
         }
-
         context.SaveChanges();
     }
 }
