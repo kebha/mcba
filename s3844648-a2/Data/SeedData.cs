@@ -42,8 +42,12 @@ public static class SeedData
 
             
             // Insert Login
-            customer.Login.CustomerID = customer.CustomerID;
-            context.Logins.Add(customer.Login);
+            context.Logins.Add(new Login
+            {
+                LoginID = customer.Login.LoginID,
+                CustomerID = customer.CustomerID,
+                PasswordHash = customer.Login.PasswordHash
+            });
 
             foreach (var account in customer.Accounts)
             {
@@ -53,7 +57,7 @@ public static class SeedData
                 {
                     account.Balance += transaction.Amount;
                 }
-                context.Accounts.Add(new Account()
+                context.Accounts.Add(new Account
                 {
                     AccountID = account.AccountID,
                     AccountType = account.AccountType.Equals("S") ? "Savings" : "Checking",
@@ -61,20 +65,18 @@ public static class SeedData
                     Balance = account.Balance
                 });
 
-                int i = 0;
+
                 foreach (var transaction in account.Transactions)
                 {
                     // Insert Transactions
                     context.Transactions.Add(new Transaction
                     {
-                        TransactionID = i,
                         AccountID = account.AccountID,
                         TransactionType = TransactionType.Deposit,
                         Amount = transaction.Amount,
                         Comment = transaction.Comment,
                         TransactionTimeUtc = transaction.TransactionTimeUtc
                     });
-                    i++;
                 }
             }
         }

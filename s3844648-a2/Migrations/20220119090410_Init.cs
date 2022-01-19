@@ -31,7 +31,8 @@ namespace s3844648_a2.Migrations
                 name: "Payees",
                 columns: table => new
                 {
-                    PayeeID = table.Column<int>(type: "int", nullable: false),
+                    PayeeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Suburb = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
@@ -87,7 +88,8 @@ namespace s3844648_a2.Migrations
                 name: "BillPays",
                 columns: table => new
                 {
-                    BillPayID = table.Column<int>(type: "int", nullable: false),
+                    BillPayID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     PayeeID = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
@@ -115,7 +117,8 @@ namespace s3844648_a2.Migrations
                 name: "Transactions",
                 columns: table => new
                 {
-                    TransactionID = table.Column<int>(type: "int", nullable: false),
+                    TransactionID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TransactionType = table.Column<int>(type: "int", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     DestinationAccountID = table.Column<int>(type: "int", nullable: true),

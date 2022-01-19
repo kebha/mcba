@@ -47,7 +47,10 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.BillPay", b =>
                 {
                     b.Property<int>("BillPayID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillPayID"), 1L, 1);
 
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
@@ -137,7 +140,10 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.Payee", b =>
                 {
                     b.Property<int>("PayeeID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PayeeID"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -177,7 +183,10 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionID"), 1L, 1);
 
                     b.Property<int>("AccountID")
                         .HasColumnType("int");

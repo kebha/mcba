@@ -5,7 +5,7 @@ namespace s3844648_a2.Models;
 
 public class Payee
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int PayeeID { get; set; }
 
     [Required]
