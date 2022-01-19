@@ -40,7 +40,6 @@ public static class SeedData
                 PostCode = customer.PostCode
             });
 
-            
             // Insert Login
             context.Logins.Add(new Login
             {
@@ -64,7 +63,6 @@ public static class SeedData
                     CustomerID = account.CustomerID,
                     Balance = account.Balance
                 });
-
 
                 foreach (var transaction in account.Transactions)
                 {
