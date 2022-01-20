@@ -1,8 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using s3844648_a2.Converters;
 
 namespace s3844648_a2.Models;
+
+public enum AccountType
+{
+    Savings = 1,
+    Checking = 2
+}
 
 public class Account
 {
@@ -11,9 +18,9 @@ public class Account
     [Display(Name = "Account Number")]
     public int AccountID { get; set; }
 
-    [Required]
+    [JsonConverter(typeof(AccountTypeStringToAccountTypeEnumConverter))]
     [Display(Name = "Type")]
-    public string AccountType { get; set; }
+    public AccountType AccountType { get; set; }
 
     public int CustomerID { get; set; }
     public virtual Customer Customer { get; set; }

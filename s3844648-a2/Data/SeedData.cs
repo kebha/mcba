@@ -59,7 +59,7 @@ public static class SeedData
                 context.Accounts.Add(new Account
                 {
                     AccountID = account.AccountID,
-                    AccountType = account.AccountType.Equals("S") ? "Savings" : "Checking",
+                    AccountType = account.AccountType,
                     CustomerID = account.CustomerID,
                     Balance = account.Balance
                 });

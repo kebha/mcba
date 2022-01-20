@@ -50,7 +50,7 @@ namespace s3844648_a2.Migrations
                 columns: table => new
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false),
-                    AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountType = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "money", nullable: false)
                 },
@@ -160,8 +160,7 @@ namespace s3844648_a2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Logins_CustomerID",
                 table: "Logins",
-                column: "CustomerID",
-                unique: true);
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountID",

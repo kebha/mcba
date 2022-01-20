@@ -12,7 +12,7 @@ using s3844648_a2.Data;
 namespace s3844648_a2.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220119090410_Init")]
+    [Migration("20220120031116_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,9 +29,8 @@ namespace s3844648_a2.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AccountType")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("money");
@@ -133,8 +132,7 @@ namespace s3844648_a2.Migrations
 
                     b.HasKey("LoginID");
 
-                    b.HasIndex("CustomerID")
-                        .IsUnique();
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Logins");
                 });
@@ -251,8 +249,8 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.Login", b =>
                 {
                     b.HasOne("s3844648_a2.Models.Customer", "Customer")
-                        .WithOne("Login")
-                        .HasForeignKey("s3844648_a2.Models.Login", "CustomerID")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -284,9 +282,6 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.Customer", b =>
                 {
                     b.Navigation("Accounts");
-
-                    b.Navigation("Login")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
