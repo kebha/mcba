@@ -20,6 +20,7 @@ public class LoginController : Controller
     public async Task<IActionResult> Login(string loginID, string password)
     {
         var login = await _context.Logins.FindAsync(loginID);
+
         if (login == null || string.IsNullOrEmpty(password) || !PBKDF2.Verify(login.PasswordHash, password))
         { 
             ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
@@ -27,8 +28,9 @@ public class LoginController : Controller
         }
 
         // Login customer.
+        var customer = await _context.Customers.FindAsync(login.CustomerID);
         HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
-        HttpContext.Session.SetString(nameof(Customer.Name), login.Customer.Name);
+        HttpContext.Session.SetString(nameof(Customer.Name), customer.Name);
 
         return RedirectToAction("Index", "Customer");
     }

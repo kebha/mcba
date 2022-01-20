@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using s3844648_a2.Data;
 using s3844648_a2.Utilities;
 using s3844648_a2.Filters;
@@ -18,7 +19,8 @@ public class CustomerController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var customer = await _context.Customers.FindAsync(CustomerID);
+        var customer = await _context.Customers.Include(x => x.Accounts).
+            FirstOrDefaultAsync(x => x.CustomerID == CustomerID);
 
         return View(customer);
     }
@@ -40,10 +42,8 @@ public class CustomerController : Controller
             return View(account);
         }
 
-        // Note this code could be moved out of the controller, e.g., into the Model.
         account.Balance += amount;
-        account.Transactions.Add(
-            new Transaction
+        account.Transactions.Add(new Transaction
             {
                 TransactionType = TransactionType.Deposit,
                 Amount = amount,

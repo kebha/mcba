@@ -27,7 +27,7 @@ public class Account
 
     [Column(TypeName = "money")]
     [DataType(DataType.Currency)]
-    [DisplayFormat(DataFormatString = "{0:C")]
+    //[DisplayFormat(DataFormatString = "{0:C")]
     public decimal Balance { get; set; }
 
     [InverseProperty(nameof(Transaction.Account))]
