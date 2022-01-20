@@ -25,14 +25,21 @@ public class CustomerController : Controller
         return View(customer);
     }
 
-    public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
+    public async Task<IActionResult> Deposit(int id)
+    {
+
+        View(await _context.Accounts.Include(x => x.Transactions).
+                FirstOrDefaultAsync(x => x.AccountID == id));
+    }
+} 
 
     [HttpPost]
-    public async Task<IActionResult> Deposit(int id, decimal amount)
+    public async Task<IActionResult> Deposit(int id, decimal amount, string comment = null)
     {
-        var account = await _context.Accounts.FindAsync(id);
+        var account = await _context.Accounts.Include(x => x.Transactions).
+            FirstOrDefaultAsync(x => x.AccountID == id);
 
-        if(amount <= 0)
+        if (amount <= 0)
             ModelState.AddModelError(nameof(amount), "Amount must be positive.");
         if(amount.HasMoreThanTwoDecimalPlaces())
             ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
@@ -44,11 +51,22 @@ public class CustomerController : Controller
 
         account.Balance += amount;
         account.Transactions.Add(new Transaction
-            {
-                TransactionType = TransactionType.Deposit,
-                Amount = amount,
-                TransactionTimeUtc = DateTime.UtcNow
-            });
+        {
+            AccountID = account.AccountID,
+            TransactionType = TransactionType.Deposit,
+            Amount = amount,
+            Comment = comment,
+            TransactionTimeUtc = DateTime.UtcNow
+        });
+        
+        /*_context.Transactions.Add(new Transaction
+        {
+            AccountID = account.AccountID,
+            TransactionType = TransactionType.Deposit,
+            Amount = amount,
+            Comment = comment,
+            TransactionTimeUtc = DateTime.UtcNow
+        });*/
 
         await _context.SaveChangesAsync();
 

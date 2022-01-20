@@ -16,6 +16,9 @@
                     data-val="true" data-val-number="The field Amount must be a number."
                     data-val-required="The Amount field is required." />
                 @Html.ValidationMessage("Amount", new { @class = "text-danger" })
+                <label asp-for="@Model.Transactions[0].Comment" class="control-label"></label>
+                <input asp-for="@Model.Transactions[0].Comment" class="form-control"/>
+                <span asp-validation-for="@Model.Transactions[0].Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Deposit" class="btn btn-primary" />

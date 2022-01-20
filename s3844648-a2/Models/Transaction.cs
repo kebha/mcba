@@ -33,7 +33,7 @@ public class Transaction
     [DisplayFormat(DataFormatString = "{0:C")]
     public decimal Amount { get; set; }
 
-    [StringLength(30)]
+    [StringLength(30, ErrorMessage = "Comment must be less than 30 characters")]
     public string? Comment { get; set; }
 
     [Required]
