@@ -13,6 +13,8 @@ public class CustomerController : Controller
 {
     private readonly MyContext _context;
 
+    private int _selectedAccount;
+
     private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
 
     public CustomerController(MyContext context) => _context = context;
@@ -25,48 +27,30 @@ public class CustomerController : Controller
         return View(customer);
     }
 
-    public async Task<IActionResult> Deposit(int id)
+    public IActionResult Deposit(int id)
     {
-
-        View(await _context.Accounts.Include(x => x.Transactions).
-                FirstOrDefaultAsync(x => x.AccountID == id));
+        _selectedAccount = id;
+        return View(new Transaction() {AccountID = id});
     }
-} 
 
     [HttpPost]
-    public async Task<IActionResult> Deposit(int id, decimal amount, string comment = null)
+    public async Task<IActionResult> Deposit(int id, Transaction input)
     {
+        // Only check validation for the relevant field of this step instead of all fields.
+        //if (ModelState.GetValidationState(nameof(input.FirstName)) != ModelValidationState.Valid)
+        //    return View(input);
+
         var account = await _context.Accounts.Include(x => x.Transactions).
             FirstOrDefaultAsync(x => x.AccountID == id);
 
-        if (amount <= 0)
-            ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-        if(amount.HasMoreThanTwoDecimalPlaces())
-            ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-        if(!ModelState.IsValid)
-        {
-            ViewBag.Amount = amount;
-            return View(account);
-        }
-
-        account.Balance += amount;
+        account.Balance += input.Amount;
         account.Transactions.Add(new Transaction
         {
-            AccountID = account.AccountID,
             TransactionType = TransactionType.Deposit,
-            Amount = amount,
-            Comment = comment,
+            Amount = input.Amount,
+            Comment = input.Comment,
             TransactionTimeUtc = DateTime.UtcNow
         });
-        
-        /*_context.Transactions.Add(new Transaction
-        {
-            AccountID = account.AccountID,
-            TransactionType = TransactionType.Deposit,
-            Amount = amount,
-            Comment = comment,
-            TransactionTimeUtc = DateTime.UtcNow
-        });*/
 
         await _context.SaveChangesAsync();
 
