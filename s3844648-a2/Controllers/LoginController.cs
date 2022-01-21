@@ -17,7 +17,7 @@ public class LoginController : Controller
     public IActionResult Index() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Login(string loginID, string password)
+    public async Task<IActionResult> Index(string loginID, string password)
     {
         var login = await _context.Logins.FindAsync(loginID);
 
