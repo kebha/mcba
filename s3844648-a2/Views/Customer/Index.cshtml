@@ -22,9 +22,19 @@
                 <td>@Html.DisplayFor(x => account.Balance)</td>
                 <td>
                     <a class="btn btn-primary"
-                        asp-action="Deposit" asp-route-id="@account.AccountID">Deposit</a>
+                       asp-action="Deposit" asp-route-id="@account.AccountID">Deposit</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Deposit" asp-route-id="@account.AccountID">Withdraw</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Deposit" asp-route-id="@account.AccountID">Transfer</a>
                 </td>
             </tr>
         }
     </table>
+    <a class="btn btn-primary"
+       asp-action="Deposit">A Button</a>
 </div>

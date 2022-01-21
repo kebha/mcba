@@ -7,14 +7,14 @@ using SimpleHashing;
 namespace s3844648_a2.Controllers;
 
 //this class is built off of code from day 6 McbaExampleWithLogin
-[Route("/Login")]
+
 public class LoginController : Controller
 {
     private readonly MyContext _context;
 
     public LoginController(MyContext context) => _context = context;
 
-    public IActionResult Login() => View();
+    public IActionResult Index() => View();
 
     [HttpPost]
     public async Task<IActionResult> Login(string loginID, string password)
@@ -41,6 +41,6 @@ public class LoginController : Controller
         // Logout customer.
         HttpContext.Session.Clear();
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Login");
     }
 }

@@ -11,6 +11,6 @@ public class AuthorizeCustomerAttribute : Attribute, IAuthorizationFilter
     {
         var customerID = context.HttpContext.Session.GetInt32(nameof(Customer.CustomerID));
         if(!customerID.HasValue)
-            context.Result = new RedirectToActionResult("Index", "Home", null);
+            context.Result = new RedirectToActionResult("Index", "Login", null);
     }
 }
