@@ -35,7 +35,6 @@ public class LoginController : Controller
         return RedirectToAction("Index", "Customer");
     }
 
-    [Route("LogoutNow")]
     public IActionResult Logout()
     {
         // Logout customer.

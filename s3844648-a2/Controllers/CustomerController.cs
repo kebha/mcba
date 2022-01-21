@@ -13,8 +13,6 @@ public class CustomerController : Controller
 {
     private readonly MyContext _context;
 
-    private int _selectedAccount;
-
     private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
 
     public CustomerController(MyContext context) => _context = context;
@@ -27,11 +25,7 @@ public class CustomerController : Controller
         return View(customer);
     }
 
-    public IActionResult Deposit(int id)
-    {
-        _selectedAccount = id;
-        return View(new Transaction() {AccountID = id});
-    }
+    public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
 
     [HttpPost]
     public async Task<IActionResult> Deposit(int id, Transaction input)
