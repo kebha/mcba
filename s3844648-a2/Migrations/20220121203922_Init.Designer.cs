@@ -12,7 +12,7 @@ using s3844648_a2.Data;
 namespace s3844648_a2.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220120031116_Init")]
+    [Migration("20220121203922_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("CustomerID");
 
                     b.ToTable("Accounts");
+
+                    b.HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.BillPay", b =>
@@ -214,6 +216,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("DestinationAccountID");
 
                     b.ToTable("Transactions");
+
+                    b.HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Account", b =>

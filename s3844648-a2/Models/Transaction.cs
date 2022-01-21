@@ -17,25 +17,20 @@ public class Transaction
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int TransactionID { get; set; }
 
-    [Required]
     public TransactionType TransactionType { get; set; }
 
-    [Required]
     public int AccountID { get; set; }
     public virtual Account Account { get; set; }
 
     public int? DestinationAccountID { get; set; }
     public virtual Account DestinationAccount { get; set; }
 
-    [Required]
     [Column(TypeName = "money")]
     [DataType(DataType.Currency)]
-    [DisplayFormat(DataFormatString = "{0:C")]
     public decimal Amount { get; set; }
 
     [StringLength(30, ErrorMessage = "Comment must be less than 30 characters")]
     public string? Comment { get; set; }
 
-    [Required]
     public DateTime TransactionTimeUtc { get; set; }
 }

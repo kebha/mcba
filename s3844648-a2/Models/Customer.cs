@@ -9,7 +9,6 @@ public class Customer
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int CustomerID { get; set; }
 
-    [Required]
     [StringLength(50)]
     public string Name { get; set; }
 
@@ -30,6 +29,7 @@ public class Customer
     public string? PostCode { get; set; }
 
     [StringLength(12)]
+    //format
     public string? Mobile { get; set; }
 
     public virtual List<Account> Accounts { get; set; }

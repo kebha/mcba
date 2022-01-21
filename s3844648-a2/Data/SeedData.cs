@@ -25,8 +25,6 @@ public static class SeedData
             DateFormatString = "dd/MM/yyyy"
         });
 
-        
-
         // Insert into database.
         foreach (var customer in customers)
         {

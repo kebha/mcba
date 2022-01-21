@@ -57,6 +57,7 @@ namespace s3844648_a2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountID);
+                    table.CheckConstraint("CK_Accounts_CH_Account_Balance", "Balance >= 0");
                     table.ForeignKey(
                         name: "FK_Accounts_Customers_CustomerID",
                         column: x => x.CustomerID,
@@ -129,6 +130,7 @@ namespace s3844648_a2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionID);
+                    table.CheckConstraint("CK_Transactions_CH_Transaction_Amount", "Amount > 0");
                     table.ForeignKey(
                         name: "FK_Transactions_Accounts_AccountID",
                         column: x => x.AccountID,

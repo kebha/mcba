@@ -13,6 +13,6 @@ public class Login
     public virtual Customer Customer { get; set; }
 
     [Column(TypeName = "char")]
-    [Required, StringLength(64)]
+    [StringLength(64)]
     public string PasswordHash { get; set; }
 }

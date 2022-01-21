@@ -14,8 +14,8 @@ public enum AccountType
 public class Account
 {
     [JsonProperty("AccountNumber")]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Display(Name = "Account Number")]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int AccountID { get; set; }
 
     [JsonConverter(typeof(AccountTypeStringToAccountTypeEnumConverter))]
@@ -27,7 +27,6 @@ public class Account
 
     [Column(TypeName = "money")]
     [DataType(DataType.Currency)]
-    //[DisplayFormat(DataFormatString = "{0:C")]
     public decimal Balance { get; set; }
 
     [InverseProperty(nameof(Transaction.Account))]

@@ -41,6 +41,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("CustomerID");
 
                     b.ToTable("Accounts");
+
+                    b.HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.BillPay", b =>
@@ -212,6 +214,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("DestinationAccountID");
 
                     b.ToTable("Transactions");
+
+                    b.HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Account", b =>
