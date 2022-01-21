@@ -28,9 +28,8 @@ public class LoginController : Controller
         }
 
         // Login customer.
-        var customer = await _context.Customers.FindAsync(login.CustomerID);
         HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
-        HttpContext.Session.SetString(nameof(Customer.Name), customer.Name);
+        HttpContext.Session.SetString(nameof(Customer.Name), login.Customer.Name);
 
         return RedirectToAction("Index", "Customer");
     }

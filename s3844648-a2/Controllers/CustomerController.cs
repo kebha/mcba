@@ -19,30 +19,26 @@ public class CustomerController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var customer = await _context.Customers.Include(x => x.Accounts).
-            FirstOrDefaultAsync(x => x.CustomerID == CustomerID);
+        var customer = await _context.Customers.FindAsync(CustomerID);
 
         return View(customer);
     }
 
     public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
 
+    //public IActionResult Confirm(int id) => View(new Transaction() { AccountID = id });
+
     [HttpPost]
-    public async Task<IActionResult> Deposit(int id, Transaction input)
+    public async Task<IActionResult> Deposit(int id, Transaction transaction)
     {
-        // Only check validation for the relevant field of this step instead of all fields.
-        //if (ModelState.GetValidationState(nameof(input.FirstName)) != ModelValidationState.Valid)
-        //    return View(input);
+        var account = await _context.Accounts.FindAsync(id);
 
-        var account = await _context.Accounts.Include(x => x.Transactions).
-            FirstOrDefaultAsync(x => x.AccountID == id);
-
-        account.Balance += input.Amount;
+        account.Balance += transaction.Amount;
         account.Transactions.Add(new Transaction
         {
             TransactionType = TransactionType.Deposit,
-            Amount = input.Amount,
-            Comment = input.Comment,
+            Amount = transaction.Amount,
+            Comment = transaction.Comment,
             TransactionTimeUtc = DateTime.UtcNow
         });
 
