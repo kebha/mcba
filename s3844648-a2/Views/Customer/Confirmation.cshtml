@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Transaction
+
+<h1>Confirm Transaction?</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Confirmation">
+            <div>
+                @if(@Model.TransactionType == TransactionType.Deposit) {
+                    <p>Are you sure you want to deposit $@Model.Amount into account #@Model.AccountID?</p>
+                }
+                else if (@Model.TransactionType == TransactionType.Withdraw)
+                {
+                    <p>Are you sure you want to withdraw $@Model.Amount from account #@Model.AccountID?</p>
+                }
+                else if (@Model.TransactionType == TransactionType.Transfer)
+                {
+                    <p>Are you sure you want to transfer $@Model.Amount from account #@Model.AccountID to account #@Model.AccountID?</p>
+                }
+            </div>
+            <input asp-for="TransactionType"  type="hidden" value="@Model.TransactionType"/>
+            <input asp-for="AccountID"  type="hidden" value="@Model.AccountID"/>
+            <input asp-for="DestinationAccountID"  type="hidden" value="@Model.DestinationAccountID"/>
+            <input asp-for="Amount"  type="hidden" value="@Model.Amount"/>
+            <input asp-for="Comment"  type="hidden" value="@Model.Comment"/>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Accounts</a>
+</div>
