@@ -5,6 +5,11 @@ Student ID: s3844648
 
 Github URL: https://github.com/rmit-wdt-fs-2022/s3844648-a1
 
+<h1>Info</h1>
+The purpose of this project is to create a internet banking website for the 'Most Common Bank of Australia'.
+On completion a customer of this bank will have the ability to check account balance and transaction history,
+make deposits, withdrawals & Transfers money between accounts, schedule payments, modify their personal
+profile and perform administrative tasks. This web application will be built using the ASP.NET Core MVC framework.
 
 <h1>References</h1>
 
