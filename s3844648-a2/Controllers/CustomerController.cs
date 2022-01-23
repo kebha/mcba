@@ -33,6 +33,7 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> Deposit(int id, decimal amount, string comment)
     {
+        //validation
         if (amount <= 0)
             ModelState.AddModelError(nameof(amount), "Amount must be positive.");
         if (amount.HasMoreThanTwoDecimalPlaces())
@@ -50,53 +51,68 @@ public class CustomerController : Controller
             Amount = amount,
             Comment = comment
         };
-
         return RedirectToAction(nameof(Confirmation), transaction);
     }
 
     public IActionResult Withdraw(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
-    public async Task<IActionResult> Withdraw(int id, Transaction transaction)
+    public async Task<IActionResult> Withdraw(int id, decimal amount, string comment)
     {
+        //validation
         var account = await _context.Accounts.FindAsync(id);
         var availableBalance = account.AccountType == AccountType.Savings ? account.Balance : account.Balance - 300;
-        var serviceCharge = account.Transactions.Count >= 2 ? _withdrawFee : 0;
-
-        if (transaction.Amount <= 0)
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount must be positive.");
-        if (transaction.Amount.HasMoreThanTwoDecimalPlaces())
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount cannot have more than 2 decimal places.");
-        if (transaction.Amount + serviceCharge > availableBalance)
-            ModelState.AddModelError(nameof(transaction.Amount), "This transaction would put you below your minimum balance");
+        var serviceCharge = await ServiceChargeApplies(id) ? _withdrawFee : 0;
+        if (amount <= 0)
+            ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+        if (amount.HasMoreThanTwoDecimalPlaces())
+            ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+        if (amount + serviceCharge > availableBalance)
+            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance");
         if (!ModelState.IsValid)
         {
-            return View(transaction);
+            return View(new Transaction() { AccountID = id });
         }
 
+        var transaction = new Transaction()
+        {
+            TransactionType = TransactionType.Withdraw,
+            AccountID = id,
+            DestinationAccountID = null,
+            Amount = amount,
+            Comment = comment
+        };
         return RedirectToAction(nameof(Confirmation), transaction);
     }
 
     public IActionResult Transfer(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
-    public async Task<IActionResult> Transfer(int id, Transaction transaction)
+    public async Task<IActionResult> Transfer(int id, int destinationAccountID, decimal amount, string comment)
     {
+        //validation
         var account = await _context.Accounts.FindAsync(id);
         var availableBalance = account.AccountType == AccountType.Savings ? account.Balance : account.Balance - 300;
-        var serviceCharge = account.Transactions.Count >= 2 ? _transferFee : 0;
-
-        if (transaction.Amount <= 0)
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount must be positive.");
-        if (transaction.Amount.HasMoreThanTwoDecimalPlaces())
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount cannot have more than 2 decimal places.");
-        if (transaction.Amount + serviceCharge > availableBalance)
-            ModelState.AddModelError(nameof(transaction.Amount), "This transaction would put you below your minimum balance");
+        var serviceCharge = await ServiceChargeApplies(id) ? _transferFee : 0;
+        if (amount <= 0)
+            ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+        if (amount.HasMoreThanTwoDecimalPlaces())
+            ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+        if (amount + serviceCharge > availableBalance)
+            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance");
         if (!ModelState.IsValid)
         {
-            return View(transaction);
+            return View(new Transaction() { AccountID = id });
         }
 
+        var transaction = new Transaction()
+        {
+            TransactionType = TransactionType.Transfer,
+            AccountID = id,
+            DestinationAccountID = destinationAccountID,
+            Amount = amount,
+            Comment = comment
+        };
         return RedirectToAction(nameof(Confirmation), transaction);
     }
 
@@ -105,8 +121,9 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> Confirmation(Transaction transaction, int i=0)
     {
+        //transaction
         var account = await _context.Accounts.FindAsync(transaction.AccountID);
-        account.Balance += transaction.Amount;
+        account.Balance += transaction.TransactionType == TransactionType.Deposit ? transaction.Amount : transaction.Amount * -1;
         account.Transactions.Add(new Transaction
         {
             TransactionType = transaction.TransactionType,
@@ -115,7 +132,33 @@ public class CustomerController : Controller
             Comment = transaction.Comment,
             TransactionTimeUtc = DateTime.UtcNow
         });
+        if (transaction.TransactionType == TransactionType.Transfer)
+        {
+            var destAccount = await _context.Accounts.FindAsync(transaction.DestinationAccountID);
+            destAccount.Balance += transaction.Amount;
+            destAccount.Transactions.Add(new Transaction()
+            {
+                TransactionType = TransactionType.Transfer,
+                DestinationAccountID = null,
+                Amount = transaction.Amount,
+                Comment = transaction.Comment,
+                TransactionTimeUtc = DateTime.UtcNow
+            });
+        }
 
+        //service charge
+        if (await ServiceChargeApplies(transaction.AccountID) && (transaction.TransactionType == TransactionType.Withdraw || transaction.TransactionType == TransactionType.Transfer))
+        {
+            account.Balance += transaction.TransactionType == TransactionType.Withdraw ? _withdrawFee * -1 : _transferFee * -1;
+            account.Transactions.Add(new Transaction
+            {
+                TransactionType = TransactionType.ServiceCharge,
+                DestinationAccountID = null,
+                Amount = transaction.TransactionType == TransactionType.Withdraw ? _withdrawFee : _transferFee,
+                Comment = transaction.Comment,
+                TransactionTimeUtc = DateTime.UtcNow
+            });
+        }
         await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
@@ -124,14 +167,14 @@ public class CustomerController : Controller
     public async Task<bool> ServiceChargeApplies(int accountID)
     {
         var account = await _context.Accounts.FindAsync(accountID);
-        
         var withdrawsAndTransfers = new List<Transaction>();
 
         foreach (var transaction in account.Transactions)
         {
-            
+            if (transaction.TransactionType == TransactionType.Withdraw || (transaction.TransactionType == TransactionType.Transfer && transaction.DestinationAccountID != null))
+                withdrawsAndTransfers.Add(transaction);
         }
 
-        return true;
+        return withdrawsAndTransfers.Count >= 2;
     }
 }
