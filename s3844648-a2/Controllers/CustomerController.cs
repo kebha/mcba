@@ -31,7 +31,7 @@ public class CustomerController : Controller
     public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
 
     [HttpPost]
-    public async Task<IActionResult> Deposit(int id, decimal amount, string comment)
+    public async Task<IActionResult> Deposit(int id, decimal amount, string? comment)
     {
         //validation
         if (amount <= 0)
@@ -57,7 +57,7 @@ public class CustomerController : Controller
     public IActionResult Withdraw(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
-    public async Task<IActionResult> Withdraw(int id, decimal amount, string comment)
+    public async Task<IActionResult> Withdraw(int id, decimal amount, string? comment)
     {
         //validation
         var account = await _context.Accounts.FindAsync(id);
@@ -88,7 +88,7 @@ public class CustomerController : Controller
     public IActionResult Transfer(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
-    public async Task<IActionResult> Transfer(int id, int destinationAccountID, decimal amount, string comment)
+    public async Task<IActionResult> Transfer(int id, int destinationAccountID, decimal amount, string? comment)
     {
         //validation
         var account = await _context.Accounts.FindAsync(id);
