@@ -39,9 +39,7 @@ public class CustomerController : Controller
         if (amount.HasMoreThanTwoDecimalPlaces())
             ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
         if (!ModelState.IsValid)
-        {
             return View(new Transaction() { AccountID = id });
-        }
 
         var transaction = new Transaction()
         {
@@ -68,11 +66,9 @@ public class CustomerController : Controller
         if (amount.HasMoreThanTwoDecimalPlaces())
             ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
         if (amount + serviceCharge > availableBalance)
-            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance");
+            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance.");
         if (!ModelState.IsValid)
-        {
             return View(new Transaction() { AccountID = id });
-        }
 
         var transaction = new Transaction()
         {
@@ -99,11 +95,13 @@ public class CustomerController : Controller
         if (amount.HasMoreThanTwoDecimalPlaces())
             ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
         if (amount + serviceCharge > availableBalance)
-            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance");
+            ModelState.AddModelError(nameof(amount), "This transaction would put you below your minimum balance.");
+        if (!_context.Accounts.Any(x => x.AccountID == destinationAccountID))
+            ModelState.AddModelError(nameof(destinationAccountID), "This account does not exist.");
+        if (destinationAccountID == id)
+            ModelState.AddModelError(nameof(destinationAccountID), "Cannot transfer to same account.");
         if (!ModelState.IsValid)
-        {
             return View(new Transaction() { AccountID = id });
-        }
 
         var transaction = new Transaction()
         {
