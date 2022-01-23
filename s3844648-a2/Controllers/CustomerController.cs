@@ -32,14 +32,14 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> Deposit(int id, Transaction transaction)
     {
-        /*if (transaction.Amount <= 0)
+        if (transaction.Amount <= 0)
             ModelState.AddModelError(nameof(transaction.Amount), "Amount must be positive.");
         if (transaction.Amount.HasMoreThanTwoDecimalPlaces())
             ModelState.AddModelError(nameof(transaction.Amount), "Amount cannot have more than 2 decimal places.");
         if (!ModelState.IsValid)
         {
             return View(transaction);
-        }*/
+        }
 
         return RedirectToAction(nameof(Confirmation), transaction);
     }

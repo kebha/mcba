@@ -20,10 +20,10 @@ public class Transaction
     public TransactionType TransactionType { get; set; }
 
     public int AccountID { get; set; }
-    public virtual Account Account { get; set; }
+    public virtual Account? Account { get; set; }
 
     public int? DestinationAccountID { get; set; }
-    public virtual Account DestinationAccount { get; set; }
+    public virtual Account? DestinationAccount { get; set; }
 
     [Column(TypeName = "money")]
     [DataType(DataType.Currency)]
