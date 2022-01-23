@@ -24,10 +24,11 @@ public class CustomerController : Controller
         return View(customer);
     }
 
-    public IActionResult Deposit(int id)
-    {
-        return View(new Transaction() {AccountID = id});
-    }
+    public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
+
+    public IActionResult Withdraw(int id) => View(new Transaction() { AccountID = id });
+
+    public IActionResult Transfer(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
     public async Task<IActionResult> Deposit(int id, Transaction transaction)
