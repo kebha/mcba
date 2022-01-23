@@ -30,19 +30,26 @@ public class CustomerController : Controller
 
     public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
 
-    
-
     [HttpPost]
-    public async Task<IActionResult> Deposit(int id, Transaction transaction)
+    public async Task<IActionResult> Deposit(int id, decimal amount, string comment)
     {
-        if (transaction.Amount <= 0)
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount must be positive.");
-        if (transaction.Amount.HasMoreThanTwoDecimalPlaces())
-            ModelState.AddModelError(nameof(transaction.Amount), "Amount cannot have more than 2 decimal places.");
+        if (amount <= 0)
+            ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+        if (amount.HasMoreThanTwoDecimalPlaces())
+            ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
         if (!ModelState.IsValid)
         {
-            return View(transaction);
+            return View(new Transaction() { AccountID = id });
         }
+
+        var transaction = new Transaction()
+        {
+            TransactionType = TransactionType.Deposit,
+            AccountID = id,
+            DestinationAccountID = null,
+            Amount = amount,
+            Comment = comment
+        };
 
         return RedirectToAction(nameof(Confirmation), transaction);
     }
@@ -99,7 +106,6 @@ public class CustomerController : Controller
     public async Task<IActionResult> Confirmation(Transaction transaction, int i=0)
     {
         var account = await _context.Accounts.FindAsync(transaction.AccountID);
-
         account.Balance += transaction.Amount;
         account.Transactions.Add(new Transaction
         {
@@ -113,5 +119,19 @@ public class CustomerController : Controller
         await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<bool> ServiceChargeApplies(int accountID)
+    {
+        var account = await _context.Accounts.FindAsync(accountID);
+        
+        var withdrawsAndTransfers = new List<Transaction>();
+
+        foreach (var transaction in account.Transactions)
+        {
+            
+        }
+
+        return true;
     }
 }
