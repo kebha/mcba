@@ -14,14 +14,18 @@ public enum TransactionType
 
 public class Transaction
 {
+    [Display(Name = "ID")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int TransactionID { get; set; }
 
+    [Display(Name = "Type")]
     public TransactionType TransactionType { get; set; }
 
+    [Display(Name = "Account")]
     public int AccountID { get; set; }
     public virtual Account Account { get; set; }
 
+    [Display(Name = "Destination Account")]
     public int? DestinationAccountID { get; set; }
     public virtual Account DestinationAccount { get; set; }
 
@@ -32,5 +36,6 @@ public class Transaction
     [StringLength(30, ErrorMessage = "Comment must be less than 30 characters")]
     public string? Comment { get; set; }
 
+    [Display(Name = "Time")]
     public DateTime TransactionTimeUtc { get; set; }
 }

@@ -9,7 +9,7 @@
 
 <div>
     <h1>@account.AccountType Account #@account.AccountID</h1>
-    <h2>Balance: @account.Balance</h2>
+    <h2>Balance: @account.Balance.ToString("C")</h2>
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(x => x[0].TransactionID)</th>
@@ -41,5 +41,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to Customers</a>
+    <a asp-action="Index">Back to Accounts</a>
 </div>

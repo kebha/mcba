@@ -7,15 +7,15 @@
         <form asp-action="Confirmation">
             <div>
                 @if(@Model.TransactionType == TransactionType.Deposit) {
-                    <p>Are you sure you want to deposit $@Model.Amount into account #@Model.AccountID?</p>
+                    <p>Are you sure you want to deposit @Model.Amount.ToString("C") into account #@Model.AccountID?</p>
                 }
                 else if (@Model.TransactionType == TransactionType.Withdraw)
                 {
-                    <p>Are you sure you want to withdraw $@Model.Amount from account #@Model.AccountID?</p>
+                    <p>Are you sure you want to withdraw @Model.Amount.ToString("C") from account #@Model.AccountID?</p>
                 }
                 else if (@Model.TransactionType == TransactionType.Transfer)
                 {
-                    <p>Are you sure you want to transfer $@Model.Amount from account #@Model.AccountID to account #@Model.AccountID?</p>
+                    <p>Are you sure you want to transfer @Model.Amount.ToString("C") from account #@Model.AccountID to account #@Model.DestinationAccountID?</p>
                 }
             </div>
             <input asp-for="TransactionType"  type="hidden" value="@Model.TransactionType"/>
