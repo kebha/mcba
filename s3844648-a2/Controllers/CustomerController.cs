@@ -183,6 +183,6 @@ public class CustomerController : Controller
                 withdrawsAndTransfers.Add(transaction);
         }
 
-        return withdrawsAndTransfers.Count >= 2;
+        return withdrawsAndTransfers.Count > 2;
     }
 }
