@@ -22,7 +22,7 @@ public static class SeedData
         // Convert JSON into objects.
         var customers = JsonConvert.DeserializeObject<List<Customer>>(json, new JsonSerializerSettings
         {
-            DateFormatString = "MM/dd/yyyy"
+            DateFormatString = "dd/MM/yyyy hh:mm:ss tt"
         });
 
         // Insert into database.

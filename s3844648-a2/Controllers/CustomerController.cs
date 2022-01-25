@@ -35,7 +35,7 @@ public class CustomerController : Controller
 
         //Page the orders
         var pagedList = await _context.Transactions.Where(x => x.AccountID == id).
-            OrderBy(x => x.TransactionTimeUtc).ToPagedListAsync(page, pageSize);
+            OrderByDescending(x => x.TransactionTimeUtc).ToPagedListAsync(page, pageSize);
 
         return View(pagedList);
     }
