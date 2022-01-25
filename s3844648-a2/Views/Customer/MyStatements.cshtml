@@ -20,15 +20,17 @@
             <th>@Html.DisplayNameFor(x => x[0].TransactionTimeUtc)</th>
             <th>@Html.DisplayNameFor(x => x[0].Comment)</th>
         </tr>
-        @foreach(var order in Model) {
+        @foreach(var transaction in Model)
+        {
+            var time = transaction.TransactionTimeUtc.ToLocalTime();
             <tr>
-                <td>@Html.DisplayFor(x => order.TransactionID)</td>
-                <td>@Html.DisplayFor(x => order.TransactionType)</td>
-                <td>@Html.DisplayFor(x => order.AccountID)</td>
-                <td>@Html.DisplayFor(x => order.DestinationAccountID)</td>
-                <td>@Html.DisplayFor(x => order.Amount)</td>
-                <td>@Html.DisplayFor(x => order.TransactionTimeUtc)</td>
-                <td>@Html.DisplayFor(x => order.Comment)</td>
+                <td>@Html.DisplayFor(x => transaction.TransactionID)</td>
+                <td>@Html.DisplayFor(x => transaction.TransactionType)</td>
+                <td>@Html.DisplayFor(x => transaction.AccountID)</td>
+                <td>@Html.DisplayFor(x => transaction.DestinationAccountID)</td>
+                <td>@Html.DisplayFor(x => transaction.Amount)</td>
+                <td>@time</td>
+                <td>@Html.DisplayFor(x => transaction.Comment)</td>
             </tr>
         }
     </table>
