@@ -14,18 +14,26 @@ public class ProfileController : Controller
 
     public ProfileController(MyContext context) => _context = context;
 
-    public async Task<IActionResult> Index()
-    {
-        var customer = await _context.Customers.FindAsync(CustomerID);
-
-        return View(customer);
-    }
+    public async Task<IActionResult> Index() => View(await _context.Customers.FindAsync(CustomerID));
 
     [HttpPost]
-    public async Task<IActionResult> Index(Customer customer)
+    public async Task<IActionResult> Index(string name, string? tfn, string? address, string? suburb, State? state, int? postCode, string? mobile)
     {
         //Validation
+        if (!ModelState.IsValid)
+            return View(await _context.Customers.FindAsync(CustomerID)); ;
 
-        return View(customer);
+        //Update changes
+        var customer = await _context.Customers.FindAsync(CustomerID);
+        customer.Name = name;
+        customer.TFN = tfn;
+        customer.Address = address;
+        customer.Suburb = suburb;
+        customer.State = state;
+        customer.PostCode = postCode;
+        customer.Mobile = mobile;
+        await _context.SaveChangesAsync();
+
+        return View(await _context.Customers.FindAsync(CustomerID)); ;
     }
 }
