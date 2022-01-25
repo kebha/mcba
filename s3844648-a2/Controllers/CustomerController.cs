@@ -4,6 +4,7 @@ using s3844648_a2.Data;
 using s3844648_a2.Utilities;
 using s3844648_a2.Filters;
 using s3844648_a2.Models;
+using X.PagedList;
 
 namespace s3844648_a2.Controllers;
 
@@ -28,7 +29,20 @@ public class CustomerController : Controller
         return View(customer);
     }
 
-    public IActionResult Deposit(int id) => View(new Transaction() {AccountID = id});
+    public async Task<IActionResult> MyStatements(int id, int? page = 1, int pageSize = 4)
+    {
+        ViewBag.Account = await _context.Accounts.FindAsync(id);
+
+        //Page the orders
+        var pagedList = await _context.Transactions.Where(x => x.AccountID == id).
+            OrderBy(x => x.TransactionTimeUtc).ToPagedListAsync(page, pageSize);
+
+        return View(pagedList);
+    }
+
+    public IActionResult Deposit (int id) => View(new Transaction() { AccountID = id });
+    public IActionResult Withdraw(int id) => View(new Transaction() { AccountID = id });
+    public IActionResult Transfer(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
     public async Task<IActionResult> Deposit(int id, decimal amount, string? comment)
@@ -51,8 +65,6 @@ public class CustomerController : Controller
         };
         return RedirectToAction(nameof(Confirmation), transaction);
     }
-
-    public IActionResult Withdraw(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
     public async Task<IActionResult> Withdraw(int id, decimal amount, string? comment)
@@ -80,8 +92,6 @@ public class CustomerController : Controller
         };
         return RedirectToAction(nameof(Confirmation), transaction);
     }
-
-    public IActionResult Transfer(int id) => View(new Transaction() { AccountID = id });
 
     [HttpPost]
     public async Task<IActionResult> Transfer(int id, int destinationAccountID, decimal amount, string? comment)

@@ -1,0 +1,45 @@
+﻿<!--This view is built off of code from the day 8 practical code-->
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<Transaction>
+@{
+    var account = (Account) ViewBag.Account;
+}
+
+<div>
+    <h1>@account.AccountType Account #@account.AccountID</h1>
+    <h2>Balance: @account.Balance</h2>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionID)</th>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionType)</th>
+            <th>@Html.DisplayNameFor(x => x[0].AccountID)</th>
+            <th>@Html.DisplayNameFor(x => x[0].DestinationAccountID)</th>
+            <th>@Html.DisplayNameFor(x => x[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x[0].TransactionTimeUtc)</th>
+            <th>@Html.DisplayNameFor(x => x[0].Comment)</th>
+        </tr>
+        @foreach(var order in Model) {
+            <tr>
+                <td>@Html.DisplayFor(x => order.TransactionID)</td>
+                <td>@Html.DisplayFor(x => order.TransactionType)</td>
+                <td>@Html.DisplayFor(x => order.AccountID)</td>
+                <td>@Html.DisplayFor(x => order.DestinationAccountID)</td>
+                <td>@Html.DisplayFor(x => order.Amount)</td>
+                <td>@Html.DisplayFor(x => order.TransactionTimeUtc)</td>
+                <td>@Html.DisplayFor(x => order.Comment)</td>
+            </tr>
+        }
+    </table>
+    
+    @Html.PagedListPager(Model, page => Url.Action("MyStatements", new { page }),
+        new PagedListRenderOptions {
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" }
+        })
+</div>
+
+<div>
+    <a asp-action="Index">Back to Customers</a>
+</div>
