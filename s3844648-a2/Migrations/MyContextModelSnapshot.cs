@@ -95,13 +95,13 @@ namespace s3844648_a2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PostCode")
+                    b.Property<int?>("PostCode")
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                        .HasColumnType("int");
 
-                    b.Property<string>("State")
+                    b.Property<int?>("State")
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Suburb")
                         .HasMaxLength(40)

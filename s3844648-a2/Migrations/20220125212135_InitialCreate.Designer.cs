@@ -12,7 +12,7 @@ using s3844648_a2.Data;
 namespace s3844648_a2.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220124234738_InitialCreate")]
+    [Migration("20220125212135_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,13 +97,13 @@ namespace s3844648_a2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PostCode")
+                    b.Property<int?>("PostCode")
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                        .HasColumnType("int");
 
-                    b.Property<string>("State")
+                    b.Property<int?>("State")
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Suburb")
                         .HasMaxLength(40)

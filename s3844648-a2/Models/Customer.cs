@@ -17,7 +17,7 @@ public enum State
 public class Customer
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    [Range(4, 4)]
+    [RegularExpression(@"^(\d{4})$")]
     public int CustomerID { get; set; }
 
     [StringLength(50)]
@@ -36,9 +36,9 @@ public class Customer
     [StringLength(3)]
     public State? State { get; set; }
 
-    [Range(4, 4)]
+    [RegularExpression(@"^(\d{4})$", ErrorMessage = "Must be a 4-digit number.")]
     [StringLength(4)]
-    public string? PostCode { get; set; }
+    public int? PostCode { get; set; }
 
     [StringLength(12)]
     [DisplayFormat(DataFormatString = "{0;04## ### ###")]
