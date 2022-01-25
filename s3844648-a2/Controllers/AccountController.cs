@@ -10,7 +10,7 @@ namespace s3844648_a2.Controllers;
 
 //this class is built off of code from day 6 McbaExampleWithLogin
 [AuthorizeCustomer]
-public class CustomerController : Controller
+public class AccountController : Controller
 {
     private readonly MyContext _context;
 
@@ -20,7 +20,7 @@ public class CustomerController : Controller
 
     private readonly decimal _transferFee = 0.10m;
 
-    public CustomerController(MyContext context) => _context = context;
+    public AccountController(MyContext context) => _context = context;
 
     public async Task<IActionResult> Index()
     {
