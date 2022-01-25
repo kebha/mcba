@@ -4,9 +4,20 @@ using Newtonsoft.Json;
 
 namespace s3844648_a2.Models;
 
+public enum State
+{
+    NSW = 1,
+    QLD = 2,
+    SA  = 3,
+    TAS = 4,
+    VIC = 4,
+    WA  = 5
+}
+
 public class Customer
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Range(4, 4)]
     public int CustomerID { get; set; }
 
     [StringLength(50)]
@@ -23,13 +34,14 @@ public class Customer
     public string? Suburb { get; set; }
 
     [StringLength(3)]
-    public string? State { get; set; }
+    public State? State { get; set; }
 
+    [Range(4, 4)]
     [StringLength(4)]
     public string? PostCode { get; set; }
 
     [StringLength(12)]
-    //format
+    [DisplayFormat(DataFormatString = "{0;04## ### ###")]
     public string? Mobile { get; set; }
 
     public virtual List<Account> Accounts { get; set; }
