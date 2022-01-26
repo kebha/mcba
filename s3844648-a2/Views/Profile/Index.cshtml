@@ -46,16 +46,32 @@
     <div class="form-group row">
         <label asp-for="State" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input  asp-for="State" value="@Model.State">
-            <span asp-validation-for="State" class="text-danger"></span>
+            <select class="form-select" asp-for="State">
+                @if (@Model.State == null)
+                {
+                    <option selected value="@null">n/a</option>
+                }
+                @if (@Model.State != null)
+                {
+                    <option selected value="@Model.State">@Enum.GetName(typeof(State), Model.State)</option>
+                    <option value="@null">n/a</option>
+                }
+                @foreach (State state in Enum.GetValues(typeof(State)))
+                {
+                    if (Model.State != state)
+                    {
+                        <option value="@state">@Enum.GetName(typeof(State), state)</option>
+                    }
+                }
+            </select>
         </div>
     </div>
 
     <div class="form-group row">
-        <label asp-for="PostCode" class="col-sm-2 col-form-label"></label>
+        <label asp-for="Postcode" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input  asp-for="PostCode" value="@Model.PostCode">
-            <span asp-validation-for="PostCode" class="text-danger"></span>
+            <input  asp-for="Postcode" value="@Model.Postcode">
+            <span asp-validation-for="Postcode" class="text-danger"></span>
         </div>
     </div>
 

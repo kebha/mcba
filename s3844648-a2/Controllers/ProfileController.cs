@@ -30,7 +30,7 @@ public class ProfileController : Controller
         customer.Address = address;
         customer.Suburb = suburb;
         customer.State = state;
-        customer.PostCode = postCode;
+        customer.Postcode = postCode;
         customer.Mobile = mobile;
         await _context.SaveChangesAsync();
 

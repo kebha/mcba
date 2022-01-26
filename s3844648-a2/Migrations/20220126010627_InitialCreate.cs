@@ -19,12 +19,14 @@ namespace s3844648_a2.Migrations
                     Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Suburb = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     State = table.Column<int>(type: "int", maxLength: 3, nullable: true),
-                    PostCode = table.Column<int>(type: "int", maxLength: 4, nullable: true),
+                    Postcode = table.Column<int>(type: "int", nullable: true),
                     Mobile = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.CheckConstraint("CK_Customers_CH_Customer_CustomerID", "len(CustomerID) = 4");
+                    table.CheckConstraint("CK_Customers_CH_Customer_Postcode", "len(Postcode) = 4");
                 });
 
             migrationBuilder.CreateTable(

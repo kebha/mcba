@@ -10,14 +10,13 @@ public enum State
     QLD = 2,
     SA  = 3,
     TAS = 4,
-    VIC = 4,
-    WA  = 5
+    VIC = 5,
+    WA  = 6
 }
 
 public class Customer
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    [RegularExpression(@"^(\d{4})$")]
     public int CustomerID { get; set; }
 
     [StringLength(50)]
@@ -36,12 +35,10 @@ public class Customer
     [StringLength(3)]
     public State? State { get; set; }
 
-    [RegularExpression(@"^(\d{4})$", ErrorMessage = "Must be a 4-digit number.")]
-    [StringLength(4)]
-    public int? PostCode { get; set; }
+    [JsonProperty("PostCode")]
+    public int? Postcode { get; set; }
 
     [StringLength(12)]
-    [DisplayFormat(DataFormatString = "{0;04## ### ###")]
     public string? Mobile { get; set; }
 
     public virtual List<Account> Accounts { get; set; }

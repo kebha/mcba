@@ -95,8 +95,7 @@ namespace s3844648_a2.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PostCode")
-                        .HasMaxLength(4)
+                    b.Property<int?>("Postcode")
                         .HasColumnType("int");
 
                     b.Property<int?>("State")
@@ -114,6 +113,10 @@ namespace s3844648_a2.Migrations
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
+
+                    b.HasCheckConstraint("CH_Customer_CustomerID", "len(CustomerID) = 4");
+
+                    b.HasCheckConstraint("CH_Customer_Postcode", "len(Postcode) = 4");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Login", b =>

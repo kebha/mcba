@@ -35,7 +35,7 @@ public static class SeedData
                 Name = customer.Name,
                 Address = customer.Address,
                 Suburb = customer.Suburb,
-                PostCode = customer.PostCode
+                Postcode = customer.Postcode
             });
 
             // Insert Login

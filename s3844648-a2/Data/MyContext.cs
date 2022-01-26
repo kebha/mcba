@@ -18,6 +18,7 @@ public class MyContext : DbContext
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<Customer>().HasCheckConstraint("CH_Customer_CustomerID", "len(CustomerID) = 4").HasCheckConstraint("CH_Customer_Postcode", "len(Postcode) = 4");
         builder.Entity<Account>().HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
         builder.Entity<Transaction>().HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
     }
