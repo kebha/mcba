@@ -39,6 +39,7 @@ public class Customer
     public int? Postcode { get; set; }
 
     [StringLength(12)]
+    [RegularExpression(@"^(\d{10})$", ErrorMessage = "Wrong mobile")]
     public string? Mobile { get; set; }
 
     public virtual List<Account> Accounts { get; set; }

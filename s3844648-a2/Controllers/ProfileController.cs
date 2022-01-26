@@ -36,4 +36,25 @@ public class ProfileController : Controller
 
         return View(await _context.Customers.FindAsync(CustomerID)); ;
     }
+
+    public async Task<IActionResult> Password() => View(await _context.Customers.FindAsync(CustomerID));
+
+    [HttpPost]
+    public async Task<IActionResult> Password(string password)
+    {
+        //Validation
+        if (!ModelState.IsValid)
+            return View(); ;
+
+        //Hash
+
+
+        //Update changes
+        var customer = await _context.Customers.FindAsync(CustomerID);
+        customer.Login.PasswordHash = password;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
+    }
 }
