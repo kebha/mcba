@@ -12,7 +12,7 @@ using s3844648_a2.Data;
 namespace s3844648_a2.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220126010627_InitialCreate")]
+    [Migration("20220126012521_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("CustomerID");
 
                     b.ToTable("Accounts");
+
+                    b.HasCheckConstraint("CH_Account_AccountID", "len(AccountID) = 4");
 
                     b.HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
                 });
@@ -77,6 +79,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("PayeeID");
 
                     b.ToTable("BillPays");
+
+                    b.HasCheckConstraint("CH_BillPay_Amount", "Amount > 0");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Customer", b =>
@@ -140,6 +144,8 @@ namespace s3844648_a2.Migrations
                     b.HasIndex("CustomerID");
 
                     b.ToTable("Logins");
+
+                    b.HasCheckConstraint("CH_Login_LoginID", "len(LoginID) = 8");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Payee", b =>
@@ -165,10 +171,8 @@ namespace s3844648_a2.Migrations
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
-                    b.Property<string>("PostCode")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                    b.Property<int>("Postcode")
+                        .HasColumnType("int");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -183,6 +187,8 @@ namespace s3844648_a2.Migrations
                     b.HasKey("PayeeID");
 
                     b.ToTable("Payees");
+
+                    b.HasCheckConstraint("CH_Payee_Postcode", "len(Postcode) = 4");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Transaction", b =>

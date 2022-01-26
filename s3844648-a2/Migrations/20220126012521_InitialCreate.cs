@@ -39,12 +39,13 @@ namespace s3844648_a2.Migrations
                     Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Suburb = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     State = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    PostCode = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    Postcode = table.Column<int>(type: "int", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payees", x => x.PayeeID);
+                    table.CheckConstraint("CK_Payees_CH_Payee_Postcode", "len(Postcode) = 4");
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +60,7 @@ namespace s3844648_a2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountID);
+                    table.CheckConstraint("CK_Accounts_CH_Account_AccountID", "len(AccountID) = 4");
                     table.CheckConstraint("CK_Accounts_CH_Account_Balance", "Balance >= 0");
                     table.ForeignKey(
                         name: "FK_Accounts_Customers_CustomerID",
@@ -79,6 +81,7 @@ namespace s3844648_a2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logins", x => x.LoginID);
+                    table.CheckConstraint("CK_Logins_CH_Login_LoginID", "len(LoginID) = 8");
                     table.ForeignKey(
                         name: "FK_Logins_Customers_CustomerID",
                         column: x => x.CustomerID,
@@ -102,6 +105,7 @@ namespace s3844648_a2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BillPays", x => x.BillPayID);
+                    table.CheckConstraint("CK_BillPays_CH_BillPay_Amount", "Amount > 0");
                     table.ForeignKey(
                         name: "FK_BillPays_Accounts_AccountID",
                         column: x => x.AccountID,

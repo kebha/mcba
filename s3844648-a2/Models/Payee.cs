@@ -20,10 +20,8 @@ public class Payee
     [StringLength(3)]
     public string State { get; set; }
 
-    [StringLength(4)]
-    public string PostCode { get; set; }
+    public int Postcode { get; set; }
 
     [StringLength(14)]
-    //format
     public string Phone { get; set; }
 }

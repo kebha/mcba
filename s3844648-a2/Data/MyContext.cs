@@ -19,8 +19,11 @@ public class MyContext : DbContext
         base.OnModelCreating(builder);
 
         builder.Entity<Customer>().HasCheckConstraint("CH_Customer_CustomerID", "len(CustomerID) = 4").HasCheckConstraint("CH_Customer_Postcode", "len(Postcode) = 4");
-        builder.Entity<Account>().HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
+        builder.Entity<Login>().HasCheckConstraint("CH_Login_LoginID", "len(LoginID) = 8");
+        builder.Entity<Account>().HasCheckConstraint("CH_Account_AccountID", "len(AccountID) = 4").HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
         builder.Entity<Transaction>().HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
+        builder.Entity<BillPay>().HasCheckConstraint("CH_BillPay_Amount", "Amount > 0");
+        builder.Entity<Payee>().HasCheckConstraint("CH_Payee_Postcode", "len(Postcode) = 4");
     }
 }
 
