@@ -32,7 +32,6 @@ public class Customer
     [StringLength(40)]
     public string? Suburb { get; set; }
 
-    //[StringLength(3)]
     public State? State { get; set; }
 
     [JsonProperty("PostCode")]
