@@ -23,5 +23,6 @@ public class Payee
     public int Postcode { get; set; }
 
     [StringLength(14)]
+    [RegularExpression(@"^(^0([\d]{1}) [\d]{4} [\d]{4})$", ErrorMessage = "Must be of the format: 0X XXXX XXXX")]
     public string Phone { get; set; }
 }

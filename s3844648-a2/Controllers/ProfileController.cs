@@ -17,27 +17,29 @@ public class ProfileController : Controller
     public async Task<IActionResult> Index() => View(await _context.Customers.FindAsync(CustomerID));
 
     [HttpPost]
-    public async Task<IActionResult> Index(string name, string? tfn, string? address, string? suburb, State? state, int? postCode, string? mobile)
+    public async Task<IActionResult> Index(Customer input) //string name, string? tfn, string? address, string? suburb, State? state, int? postCode, string? mobile
     {
         //Validation
+        ModelState.Remove("Login");
+        ModelState.Remove("Accounts");
         if (!ModelState.IsValid)
-            return View(await _context.Customers.FindAsync(CustomerID)); ;
+            return View(await _context.Customers.FindAsync(CustomerID));
 
         //Update changes
         var customer = await _context.Customers.FindAsync(CustomerID);
-        customer.Name = name;
-        customer.TFN = tfn;
-        customer.Address = address;
-        customer.Suburb = suburb;
-        customer.State = state;
-        customer.Postcode = postCode;
-        customer.Mobile = mobile;
+        customer.Name = input.Name;
+        customer.TFN = input.TFN;
+        customer.Address = input.Address;
+        customer.Suburb = input.Suburb;
+        customer.State = input.State;
+        customer.Postcode = input.Postcode;
+        customer.Mobile = input.Mobile;
         await _context.SaveChangesAsync();
 
         return View(await _context.Customers.FindAsync(CustomerID)); ;
     }
 
-    public async Task<IActionResult> Password() => View(await _context.Customers.FindAsync(CustomerID));
+    public async Task<IActionResult> Password() => View();
 
     [HttpPost]
     public async Task<IActionResult> Password(string password)

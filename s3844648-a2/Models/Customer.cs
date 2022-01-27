@@ -36,10 +36,11 @@ public class Customer
     public State? State { get; set; }
 
     [JsonProperty("PostCode")]
+    [RegularExpression(@"^(\d{4})$", ErrorMessage = "Postcode must be 4-digits")]
     public int? Postcode { get; set; }
 
     [StringLength(12)]
-    [RegularExpression(@"^(\d{10})$", ErrorMessage = "Wrong mobile")]
+    [RegularExpression(@"^(^04([\d]{2}) [\d]{3} [\d]{3})$", ErrorMessage = "Must be of the format: 04XX XXX XXX")]
     public string? Mobile { get; set; }
 
     public virtual List<Account> Accounts { get; set; }
