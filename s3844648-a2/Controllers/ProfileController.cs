@@ -2,6 +2,7 @@
 using s3844648_a2.Data;
 using s3844648_a2.Filters;
 using s3844648_a2.Models;
+using SimpleHashing;
 
 namespace s3844648_a2.Controllers;
 
@@ -39,22 +40,18 @@ public class ProfileController : Controller
         return View(await _context.Customers.FindAsync(CustomerID)); ;
     }
 
-    public async Task<IActionResult> Password() => View();
+    public async Task<IActionResult> ChangePassword() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Password(string password)
+    public async Task<IActionResult> ChangePassword(ChangePasswordModel input)
     {
         //Validation
         if (!ModelState.IsValid)
-            return View(); ;
-
-        //Hash
-
+            return View();
 
         //Update changes
         var customer = await _context.Customers.FindAsync(CustomerID);
-        customer.Login.PasswordHash = password;
-
+        customer.Login.PasswordHash = PBKDF2.Hash(input.NewPassword);
         await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
