@@ -22,12 +22,7 @@ public class AccountController : Controller
 
     public AccountController(MyContext context) => _context = context;
 
-    public async Task<IActionResult> Index()
-    {
-        var customer = await _context.Customers.FindAsync(CustomerID);
-
-        return View(customer);
-    }
+    public async Task<IActionResult> Index() => View(await _context.Customers.FindAsync(CustomerID));
 
     public async Task<IActionResult> MyStatements(int id, int? page = 1, int pageSize = 4)
     {

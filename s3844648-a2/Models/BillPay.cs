@@ -14,6 +14,7 @@ public class BillPay
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int BillPayID { get; set; }
 
+    [Display(Name = "Account")]
     public int AccountID { get; set; }
     public virtual Account Account { get; set; }
 

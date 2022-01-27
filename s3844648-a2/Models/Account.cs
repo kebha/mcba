@@ -31,4 +31,7 @@ public class Account
 
     [InverseProperty(nameof(Transaction.Account))]
     public virtual List<Transaction> Transactions { get; set; }
+
+    [InverseProperty(nameof(BillPay.Account))]
+    public virtual List<BillPay> BillPays { get; set; }
 }

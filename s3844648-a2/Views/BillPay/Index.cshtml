@@ -1,0 +1,38 @@
+﻿@model Customer
+
+<div>
+    <h1 class="display-4">BillPay</h1>
+    
+    <h3>Your Accounts</h3>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].BillPayID)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].AccountID)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].PayeeID)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].ScheduleTimeUtc)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].Period)</th>
+
+        </tr>
+        @foreach(var account in Model.Accounts) {
+            foreach (var billPay in account.BillPays)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => billPay.BillPayID)</td>
+                    <td>@Html.DisplayFor(x => billPay.AccountID)</td>
+                    <td>@Html.DisplayFor(x => billPay.PayeeID)</td>
+                    <td>@Html.DisplayFor(x => billPay.Amount)</td>
+                    <td>@Html.DisplayFor(x => billPay.ScheduleTimeUtc)</td>
+                    <td>@Html.DisplayFor(x => billPay.Period)</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Modify" asp-route-id="@account.AccountID">Modify</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Cancel" asp-route-id="@account.AccountID">Cancel</a>
+                    </td>
+                </tr>
+            }
+            
+        }
+    </table>
+</div>

@@ -103,7 +103,6 @@ namespace s3844648_a2.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("State")
-                        .HasMaxLength(3)
                         .HasColumnType("int");
 
                     b.Property<string>("Suburb")
@@ -139,7 +138,8 @@ namespace s3844648_a2.Migrations
 
                     b.HasKey("LoginID");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
                     b.ToTable("Logins");
 
@@ -172,10 +172,8 @@ namespace s3844648_a2.Migrations
                     b.Property<int>("Postcode")
                         .HasColumnType("int");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                    b.Property<int?>("State")
+                        .HasColumnType("int");
 
                     b.Property<string>("Suburb")
                         .IsRequired()
@@ -241,7 +239,7 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.BillPay", b =>
                 {
                     b.HasOne("s3844648_a2.Models.Account", "Account")
-                        .WithMany()
+                        .WithMany("BillPays")
                         .HasForeignKey("AccountID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -260,8 +258,8 @@ namespace s3844648_a2.Migrations
             modelBuilder.Entity("s3844648_a2.Models.Login", b =>
                 {
                     b.HasOne("s3844648_a2.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
+                        .WithOne("Login")
+                        .HasForeignKey("s3844648_a2.Models.Login", "CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -287,12 +285,17 @@ namespace s3844648_a2.Migrations
 
             modelBuilder.Entity("s3844648_a2.Models.Account", b =>
                 {
+                    b.Navigation("BillPays");
+
                     b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("s3844648_a2.Models.Customer", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
