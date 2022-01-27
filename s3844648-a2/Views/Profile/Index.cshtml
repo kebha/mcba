@@ -60,7 +60,7 @@
                 {
                     if (Model.State != state)
                     {
-                        <option value="@state">@Enum.GetName(typeof(State), state)</option>
+                        <option value="@state.ToString()">@state</option>
                     }
                 }
             </select>
