@@ -76,6 +76,38 @@ public static class SeedData
                 }
             }
         }
+
+        // Seed Payee
+        context.Payees.Add(new Payee
+        {
+            Name = "Matthew Bolger",
+            Address = "123 Fake Street",
+            Suburb = "Melbourne",
+            State = State.VIC,
+            Postcode = 3000,
+            Phone = "01 2345 6789"
+        });
+
+        context.Payees.Add(new Payee
+        {
+            Name = "Rodney Cocker",
+            Address = "456 Real Road",
+            Suburb = "Melbourne",
+            State = State.VIC,
+            Postcode = 3005,
+            Phone = "02 3456 7890"
+        });
+
+        context.Payees.Add(new Payee
+        {
+            Name = "Shekhar Kalra",
+            Address = "789 Fictional Avenue",
+            Suburb = "Sydney",
+            State = State.NSW,
+            Postcode = 1234,
+            Phone = "03 4567 8901"
+        });
+
         context.SaveChanges();
     }
 }
