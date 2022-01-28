@@ -85,7 +85,7 @@ public static class SeedData
             Suburb = "Melbourne",
             State = State.VIC,
             Postcode = 3000,
-            Phone = "01 2345 6789"
+            Phone = "(01) 2345 6789"
         });
 
         context.Payees.Add(new Payee
@@ -95,7 +95,7 @@ public static class SeedData
             Suburb = "Melbourne",
             State = State.VIC,
             Postcode = 3005,
-            Phone = "02 3456 7890"
+            Phone = "(02) 3456 7890"
         });
 
         context.Payees.Add(new Payee
@@ -105,7 +105,7 @@ public static class SeedData
             Suburb = "Sydney",
             State = State.NSW,
             Postcode = 1234,
-            Phone = "03 4567 8901"
+            Phone = "(03) 4567 8901"
         });
 
         context.SaveChanges();
