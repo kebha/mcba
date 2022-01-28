@@ -105,13 +105,14 @@ public class BillPayController : Controller
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
     }
 
-    public async Task<IActionResult> Cancel() => View();
+    public async Task<IActionResult> Cancel(int id) => View(await _context.BillPays.FindAsync(id));
 
     [HttpPost]
-    public async Task<IActionResult> Cancel(BillPay billpay)
+    public async Task<IActionResult> Cancel(int id, int i=0)
     {
         //delete billpay
-
+        _context.BillPays.Remove(await _context.BillPays.FindAsync(id));
+        await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
     }

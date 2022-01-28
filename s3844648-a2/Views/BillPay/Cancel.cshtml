@@ -1,1 +1,48 @@
-﻿
+﻿@model BillPay
+
+<h1>Cancel Bill?</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Cancel">
+            <div>
+                <p>Are you sure you want to cancel Bill #@Model.BillPayID?</p>
+                <table class="table">
+                    <tr>
+                        <th>Details</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(x => x.AccountID)</td>
+                        <td>@Model.AccountID</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(x => x.PayeeID)</td>
+                        <td>@Model.PayeeID</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(x => x.Amount)</td>
+                        <td>@Html.DisplayFor(x => x.Amount)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(x => x.ScheduleTimeUtc)</td>
+                        <td>@Model.ScheduleTimeUtc.ToLocalTime()</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(x => x.Period)</td>
+                        <td>@Model.Period</td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <input asp-for="BillPayID"  type="hidden" value="@Model.BillPayID"/>
+            <div class="form-group">
+                <input type="submit" value="Confirm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Accounts</a>
+</div>

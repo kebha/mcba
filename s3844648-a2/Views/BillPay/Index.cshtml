@@ -31,12 +31,12 @@
                 foreach (var billPay in account.BillPays)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(x => billPay.BillPayID)</td>
-                        <td>@Html.DisplayFor(x => billPay.AccountID)</td>
-                        <td>@Html.DisplayFor(x => billPay.PayeeID)</td>
+                        <td>@billPay.BillPayID</td>
+                        <td>@billPay.AccountID</td>
+                        <td>@billPay.PayeeID</td>
                         <td>@Html.DisplayFor(x => billPay.Amount)</td>
                         <td>@billPay.ScheduleTimeUtc.ToLocalTime()</td>
-                        <td>@Html.DisplayFor(x => billPay.Period)</td>
+                        <td>@billPay.Period</td>
                         <td>
                             <a class="btn btn-primary" asp-action="Modify" asp-route-id="@billPay.BillPayID">Modify</a>
                         </td>
