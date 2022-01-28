@@ -18,7 +18,7 @@ public class ProfileController : Controller
     public async Task<IActionResult> Index() => View(await _context.Customers.FindAsync(CustomerID));
 
     [HttpPost]
-    public async Task<IActionResult> Index(Customer input) //string name, string? tfn, string? address, string? suburb, State? state, int? postCode, string? mobile
+    public async Task<IActionResult> Index(Customer input)
     {
         //Validation
         ModelState.Remove("Login");

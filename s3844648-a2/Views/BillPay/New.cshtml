@@ -1,0 +1,58 @@
+﻿@model BillPay
+
+<h1>Creating new Bill</h1>
+<form asp-action="New">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="AccountID" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input  asp-for="AccountID">
+            <span asp-validation-for="AccountID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="PayeeID" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input  asp-for="PayeeID">
+            <span asp-validation-for="PayeeID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input  asp-for="Amount">
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="ScheduleTimeUtc" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input  asp-for="ScheduleTimeUtc">
+            <span asp-validation-for="ScheduleTimeUtc" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Period" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select class="form-select" asp-for="Period">
+
+                @foreach (Period period in Enum.GetValues(typeof(Period)))
+                {
+                    <option value="@period.ToString()">@period</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create Bill" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to BillPay</a>
+</div>

@@ -14,7 +14,6 @@ public class BillPay
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int BillPayID { get; set; }
 
-    [Display(Name = "Account")]
     public int AccountID { get; set; }
     public virtual Account Account { get; set; }
 
@@ -23,8 +22,9 @@ public class BillPay
 
     [Column(TypeName = "money")]
     [DataType(DataType.Currency)]
-    public int Amount { get; set; }
+    public decimal Amount { get; set; }
 
+    [Display(Name = "Scheduled Time")]
     public DateTime ScheduleTimeUtc { get; set; }
 
     public Period Period { get; set; }
