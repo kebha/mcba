@@ -38,10 +38,10 @@
                         <td>@billPay.ScheduleTimeUtc.ToLocalTime()</td>
                         <td>@Html.DisplayFor(x => billPay.Period)</td>
                         <td>
-                            <a class="btn btn-primary" asp-action="Modify" asp-route-id="@account.AccountID">Modify</a>
+                            <a class="btn btn-primary" asp-action="Modify" asp-route-id="@billPay.BillPayID">Modify</a>
                         </td>
                         <td>
-                            <a class="btn btn-primary" asp-action="Cancel" asp-route-id="@account.AccountID">Cancel</a>
+                            <a class="btn btn-primary" asp-action="Cancel" asp-route-id="@billPay.BillPayID">Cancel</a>
                         </td>
                     </tr>
                 }

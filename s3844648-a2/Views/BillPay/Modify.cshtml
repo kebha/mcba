@@ -1,1 +1,73 @@
-﻿
+﻿@model BillPay
+
+<h1>Modifying Bill #@Model.BillPayID</h1>
+<form asp-action="Modify">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="form-group row">
+        <label asp-for="BillPayID"  class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="BillPayID" readonly class="form-control-plaintext" value="@Model.BillPayID">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="AccountID" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="AccountID" value="@Model.AccountID">
+            <span asp-validation-for="AccountID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="PayeeID" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="PayeeID" value="@Model.PayeeID">
+            <span asp-validation-for="PayeeID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Amount" value="@Model.Amount">
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="ScheduleTimeUtc" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="ScheduleTimeUtc" value="@Model.ScheduleTimeUtc">
+            <span asp-validation-for="ScheduleTimeUtc" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Period" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select class="form-select" asp-for="Period">
+
+                @foreach (Period period in Enum.GetValues(typeof(Period)))
+                {
+                    if (period == Model.Period)
+                    {
+                        <option selected value="@period.ToString()">@period</option>
+                    }
+                    else
+                    {
+                        <option value="@period.ToString()">@period</option>
+                    }
+                    
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Update Bill" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to BillPay</a>
+</div>

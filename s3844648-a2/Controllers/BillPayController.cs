@@ -62,7 +62,57 @@ public class BillPayController : Controller
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
     }
 
-    public async Task<IActionResult> Modify() => View();
+    public async Task<IActionResult> Modify(int id) => View(await _context.BillPays.FindAsync(id));
+
+    [HttpPost]
+    public async Task<IActionResult> Modify(BillPay input)
+    {
+        //validation
+        ModelState.Remove("Account");
+        ModelState.Remove("Payee");
+        var customer = await _context.Customers.FindAsync(CustomerID);
+        bool isUsersAccount = false;
+        foreach (var account in customer.Accounts)
+        {
+            if (input.AccountID == account.AccountID)
+                isUsersAccount = true;
+        }
+
+        if (input.Amount <= 0)
+            ModelState.AddModelError(nameof(input.Amount), "Amount must be positive.");
+        if (input.Amount.HasMoreThanTwoDecimalPlaces())
+            ModelState.AddModelError(nameof(input.Amount), "Amount cannot have more than 2 decimal places.");
+        if (!_context.Accounts.Any(x => x.AccountID == input.AccountID))
+            ModelState.AddModelError(nameof(input.AccountID), "This account does not exist.");
+        if (!_context.Payees.Any(x => x.PayeeID == input.PayeeID))
+            ModelState.AddModelError(nameof(input.PayeeID), "This Payee does not exist.");
+        if (input.ScheduleTimeUtc < DateTime.Now)
+            ModelState.AddModelError(nameof(input.ScheduleTimeUtc), "Scheduled date must be in the future");
+        if (!isUsersAccount)
+            ModelState.AddModelError(nameof(input.AccountID), "May only withdraw funds from your accounts");
+        if (!ModelState.IsValid)
+            return View(await _context.BillPays.FindAsync(input.BillPayID));
+
+        //update billpay 
+        var billpay = await _context.BillPays.FindAsync(input.BillPayID);
+        billpay.AccountID = input.AccountID;
+        billpay.PayeeID = input.PayeeID;
+        billpay.Amount = input.Amount;
+        billpay.ScheduleTimeUtc = input.ScheduleTimeUtc.ToUniversalTime();
+        billpay.Period = input.Period;
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
+    }
 
     public async Task<IActionResult> Cancel() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> Cancel(BillPay billpay)
+    {
+        //delete billpay
+
+
+        return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
+    }
 }
