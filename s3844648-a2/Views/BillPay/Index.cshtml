@@ -3,9 +3,7 @@
 @{
     int billPayCount = 0;
     foreach (var account in Model.Accounts)
-    {
         billPayCount += account.BillPays.Count;
-    }
 }
 <div>
     <h1 class="display-4">BillPay</h1>
@@ -27,8 +25,9 @@
                 <th>@Html.DisplayNameFor(x => x.Accounts[0].BillPays[0].Period)</th>
 
             </tr>
-            @foreach(var account in Model.Accounts) {
-                foreach (var billPay in account.BillPays)
+            @foreach (var account in Model.Accounts)
+            {
+                foreach (var billPay in account.BillPays.OrderBy(x => x.ScheduleTimeUtc))
                 {
                     <tr>
                         <td>@billPay.BillPayID</td>
