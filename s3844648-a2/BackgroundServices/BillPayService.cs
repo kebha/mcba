@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using s3844648_a2.Data;
+using s3844648_a2.Models;
 
 namespace s3844648_a2.BackgroundServices;
 
@@ -16,37 +19,51 @@ public class BillPayService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("People Background Service is running.");
-
         while (!cancellationToken.IsCancellationRequested)
         {
-            await DoWork(cancellationToken);
-
-            _logger.LogInformation("People Background Service is waiting a minute.");
+            await ProcessBill(cancellationToken);
 
             await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
         }
     }
 
-    private async Task DoWork(CancellationToken cancellationToken)
+    private async Task ProcessBill(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("People Background Service is working.");
-
         using var scope = _services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<PeopleContext>();
+        var context = scope.ServiceProvider.GetRequiredService<MyContext>();
 
-        var persons = await context.Persons.ToListAsync(cancellationToken);
-        foreach (var person in persons)
+        var billPays = await context.BillPays.Where(x => x.ScheduleTimeUtc <= DateTime.UtcNow).ToListAsync(cancellationToken);
+        foreach (var billPay in billPays)
         {
-            // Name's starting with an S have count incremented by 5, everyone else has count incremented by 1.
-            if (person.Name.StartsWith('S'))
-                person.Count += 5;
+            // Check if account has enough funds
+            if (billPay.Account.AccountType == AccountType.Savings && billPay.Amount <= billPay.Account.Balance || billPay.Account.AccountType == AccountType.Checking && billPay.Amount <= billPay.Account.Balance - 300)
+            {
+                // Update Balance & add transaction
+                var account = await context.Accounts.FindAsync(billPay.AccountID);
+                account.Balance -= billPay.Amount;
+                await context.Transactions.AddAsync(new Transaction
+                {
+                    TransactionType = TransactionType.BillPay,
+                    AccountID = billPay.AccountID,
+                    DestinationAccountID = null,
+                    Amount = billPay.Amount,
+                    Comment = null,
+                    TransactionTimeUtc = DateTime.UtcNow
+                });
+
+                // Increment BillPay if Monthly
+                if (billPay.Period == Period.Monthly)
+                    billPay.ScheduleTimeUtc = billPay.ScheduleTimeUtc.AddMonths(1);
+                else
+                    context.BillPays.Remove(billPay);
+
+            }
             else
-                person.Count++;
+                context.BillPays.Remove(billPay);
         }
 
         await context.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("People Background Service work complete.");
+        _logger.LogInformation("BillPay processed!");
     }
 }
