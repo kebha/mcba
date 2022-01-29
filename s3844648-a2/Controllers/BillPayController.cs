@@ -95,13 +95,16 @@ public class BillPayController : Controller
 
         //update billpay 
         var billpay = await _context.BillPays.FindAsync(input.BillPayID);
-        billpay.AccountID = input.AccountID;
-        billpay.PayeeID = input.PayeeID;
-        billpay.Amount = input.Amount;
-        billpay.ScheduleTimeUtc = input.ScheduleTimeUtc.ToUniversalTime();
-        billpay.Period = input.Period;
-        await _context.SaveChangesAsync();
-
+        if (billpay != null)
+        {
+            billpay.AccountID = input.AccountID;
+            billpay.PayeeID = input.PayeeID;
+            billpay.Amount = input.Amount;
+            billpay.ScheduleTimeUtc = input.ScheduleTimeUtc.ToUniversalTime();
+            billpay.Period = input.Period;
+            await _context.SaveChangesAsync();
+        }
+        
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
     }
 
@@ -113,9 +116,11 @@ public class BillPayController : Controller
         //delete billpay
         var billPay = await _context.BillPays.FindAsync(id);
         if (billPay != null)
+        {
             _context.BillPays.Remove(billPay);
-        await _context.SaveChangesAsync();
-
+            await _context.SaveChangesAsync();
+        }
+        
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
     }
 }

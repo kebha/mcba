@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using s3844648_a2.BackgroundServices;
 using s3844648_a2.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<MyContext>(options =>
     options.UseLazyLoadingProxies();
 });
 
+// Add background service
+builder.Services.AddHostedService<BillPayService>();
 
 // Store session into Web-Server memory.
 builder.Services.AddDistributedMemoryCache();

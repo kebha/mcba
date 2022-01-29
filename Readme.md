@@ -13,7 +13,7 @@ profile and perform administrative tasks. This web application will be built usi
 
 <h1>References</h1>
 
-Day 8 Practical https://rmit.instructure.com/courses/95443/pages/day-8-learning-materials-slash-activities-and-recordings?module_item_id=3666230
+Day 8 Lectorial & Practical https://rmit.instructure.com/courses/95443/pages/day-8-learning-materials-slash-activities-and-recordings?module_item_id=3666230
 
 Assingment 2 Workshop (https://coreteaching01.csit.rmit.edu.au/~e103884/wdt/Assignment2-Workshop-JSON-Helper-Code.txt)
 
