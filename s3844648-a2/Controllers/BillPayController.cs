@@ -111,7 +111,9 @@ public class BillPayController : Controller
     public async Task<IActionResult> Cancel(int id, int i=0)
     {
         //delete billpay
-        _context.BillPays.Remove(await _context.BillPays.FindAsync(id));
+        var billPay = await _context.BillPays.FindAsync(id);
+        if (billPay != null)
+            _context.BillPays.Remove(billPay);
         await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index), await _context.Customers.FindAsync(CustomerID));
