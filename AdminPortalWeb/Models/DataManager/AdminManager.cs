@@ -1,48 +1,23 @@
 ﻿using AdminPortalWeb.Data;
-using AdminPortalWeb.Models.Repository;
 
 namespace AdminPortalWeb.Models.DataManager;
 
-public class AdminManager : IDataRepository<Movie, int>
+public class AdminManager 
 {
     private readonly MyContext _context;
 
-    public AdminManager(MvcMovieContext context)
+    public AdminManager(MyContext context)
     {
         _context = context;
     }
 
-    public Movie Get(int id)
+    public IEnumerable<Account> GetAccounts()
     {
-        return _context.Movie.Find(id);
+        return _context.Accounts.ToList();
     }
 
-    public IEnumerable<Movie> GetAll()
+    public IEnumerable<Transaction> GetTransactions(int id)
     {
-        return _context.Movie.ToList();
-    }
-
-    public int Add(Movie movie)
-    {
-        _context.Movie.Add(movie);
-        _context.SaveChanges();
-
-        return movie.ID;
-    }
-
-    public int Delete(int id)
-    {
-        _context.Movie.Remove(_context.Movie.Find(id));
-        _context.SaveChanges();
-
-        return id;
-    }
-
-    public int Update(int id, Movie movie)
-    {
-        _context.Update(movie);
-        _context.SaveChanges();
-            
-        return id;
+        return _context.Transactions.Where(x => x.AccountID == id).ToList();
     }
 }
