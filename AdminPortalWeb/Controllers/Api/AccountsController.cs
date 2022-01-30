@@ -8,9 +8,9 @@ namespace AdminPortalWeb.Api.Controllers;
 [Route("api/[controller]")]
 public class AccountsController : ControllerBase
 {
-    private readonly AdminManager _repo;
+    private readonly CustomerManager _repo;
 
-    public AccountsController(AdminManager repo)
+    public AccountsController(CustomerManager repo)
     {
         _repo = repo;
     }
@@ -19,6 +19,6 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public IEnumerable<Account> Get()
     {
-        return _repo.GetAccounts();
+        return _repo.GetAll();
     }
 }

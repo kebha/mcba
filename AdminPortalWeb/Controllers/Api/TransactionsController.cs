@@ -9,9 +9,9 @@ namespace AdminPortalWeb.Api.Controllers;
 [Route("api/[controller]")]
 public class AdminController : ControllerBase
 {
-    private readonly AdminManager _repo;
+    private readonly CustomerManager _repo;
 
-    public AdminController(AdminManager repo)
+    public AdminController(CustomerManager repo)
     {
         _repo = repo;
     }

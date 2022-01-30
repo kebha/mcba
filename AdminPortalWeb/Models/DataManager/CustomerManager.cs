@@ -2,16 +2,16 @@
 
 namespace AdminPortalWeb.Models.DataManager;
 
-public class AdminManager 
+public class CustomerManager 
 {
     private readonly MyContext _context;
 
-    public AdminManager(MyContext context)
+    public CustomerManager(MyContext context)
     {
         _context = context;
     }
 
-    public IEnumerable<Account> GetAccounts()
+    public IEnumerable<Account> GetAll()
     {
         return _context.Accounts.ToList();
     }

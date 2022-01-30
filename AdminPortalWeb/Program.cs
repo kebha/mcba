@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcMovieContext")));
 
-builder.Services.AddScoped<AdminManager>();
+builder.Services.AddScoped<CustomerManager>();
 
 // Configure the default client.
 builder.Services.AddHttpClient(Options.DefaultName, client =>
@@ -27,7 +27,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
