@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore;
+using AdminPortalWeb.Models;
+
+namespace AdminPortalWeb.Data;
+
+public class MyContext : DbContext
+{
+    public MyContext(DbContextOptions<MyContext> options) : base(options) {}
+
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Login> Logins { get; set; }
+    public DbSet<Account> Accounts { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Payee> Payees { get; set; }
+    public DbSet<BillPay> BillPays { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<Customer>().HasCheckConstraint("CH_Customer_CustomerID", "len(CustomerID) = 4").HasCheckConstraint("CH_Customer_Postcode", "len(Postcode) = 4");
+        builder.Entity<Login>().HasCheckConstraint("CH_Login_LoginID", "len(LoginID) = 8");
+        builder.Entity<Account>().HasCheckConstraint("CH_Account_AccountID", "len(AccountID) = 4").HasCheckConstraint("CH_Account_Balance", "Balance >= 0");
+        builder.Entity<Transaction>().HasCheckConstraint("CH_Transaction_Amount", "Amount > 0");
+        builder.Entity<BillPay>().HasCheckConstraint("CH_BillPay_Amount", "Amount > 0");
+        builder.Entity<Payee>().HasCheckConstraint("CH_Payee_Postcode", "len(Postcode) = 4");
+    }
+}
+
