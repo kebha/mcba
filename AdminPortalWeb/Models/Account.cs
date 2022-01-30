@@ -13,12 +13,10 @@ public enum AccountType
 
 public class Account
 {
-    [JsonProperty("AccountNumber")]
     [Display(Name = "Account Number")]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int AccountID { get; set; }
 
-    [JsonConverter(typeof(AccountTypeStringToAccountTypeEnumConverter))]
     [Display(Name = "Type")]
     public AccountType AccountType { get; set; }
 

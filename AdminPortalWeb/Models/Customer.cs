@@ -28,7 +28,6 @@ public class Customer
     [StringLength(50)]
     public string? Address { get; set; }
 
-    [JsonProperty("City")]
     [StringLength(40)]
     public string? Suburb { get; set; }
 
