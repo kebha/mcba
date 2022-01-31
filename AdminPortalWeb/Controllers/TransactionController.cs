@@ -1,12 +1,10 @@
 ﻿using System.Text;
-using AdminPortalWeb.Filters;
 using Microsoft.AspNetCore.Mvc;
 using AdminPortalWeb.Models;
 using Newtonsoft.Json;
 
 namespace AdminPortalWeb.Controllers;
 
-//[AuthorizeCustomer]
 public class TransactionController : Controller
 {
     private readonly IHttpClientFactory _clientFactory;

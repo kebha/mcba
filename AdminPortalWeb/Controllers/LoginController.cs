@@ -26,8 +26,8 @@ public class LoginController : Controller
         }
 
         // Login admin.
-        //HttpContext.Session.SetString(nameof(Customer.CustomerID), "admin");
-        //HttpContext.Session.SetString(nameof(Customer.Name), "admin");
+        HttpContext.Session.SetString(nameof(Customer.CustomerID), "admin");
+        HttpContext.Session.SetString(nameof(Customer.Name), "admin");
 
         return RedirectToAction("Index", "Home");
     }
@@ -35,7 +35,7 @@ public class LoginController : Controller
     public IActionResult Logout()
     {
         // Logout admin.
-        //HttpContext.Session.Clear();
+        HttpContext.Session.Clear();
 
         return RedirectToAction("Index", "Login");
     }
