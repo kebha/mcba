@@ -1,4 +1,5 @@
-﻿using AdminPortalWeb.Models;
+﻿using System.Text;
+using AdminPortalWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -20,9 +21,34 @@ public class ProfileController : Controller
         return View(customers);
     }
 
-    public async Task<IActionResult> Modify()
+    public async Task<IActionResult> Modify(int id)
     {
-        return View();
+        // Get Customer
+        var response = await Client.GetStringAsync($"api/customers/{id}");
+        var customers = JsonConvert.DeserializeObject<List<CustomerDto>>(response);
+
+        return View(customers[0]);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Modify(CustomerDto input)
+    {
+        //Validation
+        ModelState.Remove("Login");
+        ModelState.Remove("Accounts");
+        if (!ModelState.IsValid)
+        {
+            var response = await Client.GetStringAsync($"api/customers/{input.CustomerID}");
+            var customers = JsonConvert.DeserializeObject<List<CustomerDto>>(response);
+            return View(customers[0]);
+        }
+
+
+        //Update changes
+        var content = new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
+        await Client.PutAsync($"api/customers", content);
+
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Lock()
