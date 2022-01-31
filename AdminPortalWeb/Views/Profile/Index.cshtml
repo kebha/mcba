@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Customer>
+
+<h1>Transaction History</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TFN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Suburb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th><th>
+            @Html.DisplayNameFor(model => model.Postcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TFN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suburb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Postcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                <a asp-action="Modify" asp-route-id="@item.CustomerID">Modify</a> |
+            </td>
+            @if (item.Login.Locked)
+            {
+                <td>
+                    <a asp-action="Lock" asp-route-id="@item.CustomerID">Lock</a>
+                </td>
+            }
+            @if (!item.Login.Locked)
+            {
+                <td>
+                    <a asp-action="UnLock" asp-route-id="@item.CustomerID">Unlock</a>
+                </td>
+            }
+            
+        </tr>
+    }
+    </tbody>
+</table>

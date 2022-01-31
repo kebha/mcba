@@ -4,7 +4,6 @@ using AdminPortalWeb.Models.DataManager;
 
 namespace AdminPortalWeb.Api.Controllers;
 
-// This class was built off of code from Lectorial 9
 [ApiController]
 [Route("api/[controller]")]
 public class TransactionsController : ControllerBase
@@ -16,7 +15,7 @@ public class TransactionsController : ControllerBase
         _repo = repo;
     }
 
-    // GET api/transactions/1/DateTime/DateTime
+    // GET api/transactions/1
     // Gets all Transactions from the specified account
     [HttpGet("{id}")]
     public IEnumerable<Transaction> Get(int id)

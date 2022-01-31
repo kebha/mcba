@@ -26,7 +26,10 @@ builder.Services.AddHttpClient(Options.DefaultName, client =>
 //    options.Cookie.IsEssential = true;
 //});
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
 
 var app = builder.Build();
 

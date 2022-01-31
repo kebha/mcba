@@ -20,6 +20,6 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public IEnumerable<Account> Get()
     {
-        return _repo.GetAll();
+        return _repo.GetAccounts();
     }
 }

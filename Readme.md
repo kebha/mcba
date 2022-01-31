@@ -20,3 +20,5 @@ Assingment 2 Workshop (https://coreteaching01.csit.rmit.edu.au/~e103884/wdt/Assi
 Day 6 McbaExampleWithLogin (https://rmit.instructure.com/courses/95443/pages/day-6-learning-materials-slash-activities-and-recordings?module_item_id=3666224)
 
 https://stackoverflow.com/questions/29916402/c-sharp-class-serialization-mapping
+
+https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported

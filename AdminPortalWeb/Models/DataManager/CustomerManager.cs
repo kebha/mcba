@@ -1,4 +1,5 @@
 ﻿using AdminPortalWeb.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPortalWeb.Models.DataManager;
 
@@ -11,7 +12,12 @@ public class CustomerManager
         _context = context;
     }
 
-    public IEnumerable<Account> GetAll()
+    public IEnumerable<Customer> GetCustomers()
+    {
+        return _context.Customers.Include(x => x.Login).ToList();
+    }
+
+    public IEnumerable<Account> GetAccounts()
     {
         return _context.Accounts.ToList();
     }

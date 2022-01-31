@@ -23,6 +23,7 @@ public class Customer
     public string Name { get; set; }
 
     [StringLength(11)]
+    [DisplayFormat(NullDisplayText = "n/a")]
     public string? TFN { get; set; }
 
     [StringLength(50)]
