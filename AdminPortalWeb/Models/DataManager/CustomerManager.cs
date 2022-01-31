@@ -21,7 +21,7 @@ public class CustomerManager
     {
         return _context.Customers.Where(x => x.CustomerID == id).ToList();
     }
-    public int UpdateCustomer(int id, CustomerDto input)
+    public void UpdateCustomer(int id, CustomerDto input)
     {
         var customer = _context.Customers.Find(id);
         customer.TFN = input.TFN;
@@ -31,8 +31,14 @@ public class CustomerManager
         customer.Postcode = input.Postcode;
         customer.Mobile = input.Mobile;
         _context.SaveChanges();
+    }
 
-        return id;
+    //Login
+    public void UpdateLogin(string id, bool status)
+    {
+        var login = _context.Logins.Find(id);
+        login.Locked = status;
+        _context.SaveChanges();
     }
 
     //Account

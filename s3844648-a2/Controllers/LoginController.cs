@@ -26,6 +26,11 @@ public class LoginController : Controller
             ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
             return View(new Login { LoginID = loginID });
         }
+        if (login.Locked)
+        {
+            ModelState.AddModelError("LoginFailed", "Your Account has been Locked. You may not currently Login");
+            return View(new Login { LoginID = loginID });
+        }
 
         // Login customer.
         HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);

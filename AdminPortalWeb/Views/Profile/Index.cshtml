@@ -63,13 +63,13 @@
             @if (item.Login.Locked)
             {
                 <td>
-                    <a asp-action="Lock" asp-route-id="@item.CustomerID">Lock</a>
+                    <a asp-action="UnLock" asp-route-id="@item.Login.LoginID">Unlock Account</a>
                 </td>
             }
             @if (!item.Login.Locked)
             {
                 <td>
-                    <a asp-action="UnLock" asp-route-id="@item.CustomerID">Unlock</a>
+                    <a asp-action="Lock" asp-route-id="@item.Login.LoginID">Lock Account</a>
                 </td>
             }
             

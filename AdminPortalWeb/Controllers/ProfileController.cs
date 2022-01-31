@@ -34,8 +34,6 @@ public class ProfileController : Controller
     public async Task<IActionResult> Modify(CustomerDto input)
     {
         //Validation
-        ModelState.Remove("Login");
-        ModelState.Remove("Accounts");
         if (!ModelState.IsValid)
         {
             var response = await Client.GetStringAsync($"api/customers/{input.CustomerID}");
@@ -43,21 +41,24 @@ public class ProfileController : Controller
             return View(customers[0]);
         }
 
-
         //Update changes
         var content = new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
-        await Client.PutAsync($"api/customers", content);
+        await Client.PutAsync("api/customers", content);
 
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Lock()
+    public async Task<IActionResult> Lock(string id)
     {
+        //Set locked true
+        await Client.PutAsync($"api/logins/{id}/{true}", null);
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> UnLock()
+    public async Task<IActionResult> UnLock(int id)
     {
+        //Set locked false
+        await Client.PutAsync($"api/logins/{id}/{false}", null);
         return RedirectToAction(nameof(Index));
     }
 }
