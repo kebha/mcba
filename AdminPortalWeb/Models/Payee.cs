@@ -17,7 +17,7 @@ public class Payee
     [StringLength(40)]
     public string Suburb { get; set; }
 
-    public State? State { get; set; }
+    public State State { get; set; }
 
     [RegularExpression(@"^(\d{4})$", ErrorMessage = "Postcode must be 4-digits")]
     public int Postcode { get; set; }

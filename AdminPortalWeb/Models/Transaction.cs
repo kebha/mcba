@@ -26,6 +26,7 @@ public class Transaction
     public virtual Account Account { get; set; }
 
     [Display(Name = "Destination Account")]
+    [DisplayFormat(NullDisplayText = "N/A")]
     public int? DestinationAccountID { get; set; }
     public virtual Account DestinationAccount { get; set; }
 
@@ -34,6 +35,7 @@ public class Transaction
     public decimal Amount { get; set; }
 
     [StringLength(30, ErrorMessage = "Comment must be less than 30 characters")]
+    [DisplayFormat(NullDisplayText = "N/A")]
     public string? Comment { get; set; }
 
     [Display(Name = "Time")]
