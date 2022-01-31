@@ -76,7 +76,8 @@ namespace s3844648_a2.Migrations
                 {
                     LoginID = table.Column<string>(type: "char(8)", maxLength: 8, nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
-                    PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false)
+                    PasswordHash = table.Column<string>(type: "char(64)", maxLength: 64, nullable: false),
+                    Locked = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,7 +101,8 @@ namespace s3844648_a2.Migrations
                     PayeeID = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
                     ScheduleTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Period = table.Column<int>(type: "int", nullable: false)
+                    Period = table.Column<int>(type: "int", nullable: false),
+                    Blocked = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

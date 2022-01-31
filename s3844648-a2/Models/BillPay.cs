@@ -28,4 +28,6 @@ public class BillPay
     public DateTime ScheduleTimeUtc { get; set; }
 
     public Period Period { get; set; }
+
+    public bool Blocked { get; set; } = false;
 }

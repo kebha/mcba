@@ -12,7 +12,7 @@ using s3844648_a2.Data;
 namespace s3844648_a2.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220128045959_InitialCreate")]
+    [Migration("20220131025417_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,9 @@ namespace s3844648_a2.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("money");
+
+                    b.Property<bool>("Blocked")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PayeeID")
                         .HasColumnType("int");
@@ -132,6 +135,9 @@ namespace s3844648_a2.Migrations
 
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
