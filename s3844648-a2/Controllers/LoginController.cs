@@ -7,7 +7,6 @@ using SimpleHashing;
 namespace s3844648_a2.Controllers;
 
 //this class is built off of code from day 6 McbaExampleWithLogin
-
 public class LoginController : Controller
 {
     private readonly MyContext _context;

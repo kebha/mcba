@@ -38,19 +38,23 @@ public class BillPayService : BackgroundService
             // Check if account has enough funds
             if (billPay.Account.AccountType == AccountType.Savings && billPay.Amount <= billPay.Account.Balance || billPay.Account.AccountType == AccountType.Checking && billPay.Amount <= billPay.Account.Balance - 300)
             {
-                // Update Balance & add transaction
-                var account = await context.Accounts.FindAsync(billPay.AccountID);
-                account.Balance -= billPay.Amount;
-                await context.Transactions.AddAsync(new Transaction
+                // Check if BillPay is Blocked
+                if (!billPay.Blocked)
                 {
-                    TransactionType = TransactionType.BillPay,
-                    AccountID = billPay.AccountID,
-                    DestinationAccountID = null,
-                    Amount = billPay.Amount,
-                    Comment = null,
-                    TransactionTimeUtc = DateTime.UtcNow
-                });
-
+                    // Update Balance & add transaction
+                    var account = await context.Accounts.FindAsync(billPay.AccountID);
+                    account.Balance -= billPay.Amount;
+                    await context.Transactions.AddAsync(new Transaction
+                    {
+                        TransactionType = TransactionType.BillPay,
+                        AccountID = billPay.AccountID,
+                        DestinationAccountID = null,
+                        Amount = billPay.Amount,
+                        Comment = null,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    });
+                }
+                
                 // Increment BillPay if Monthly
                 if (billPay.Period == Period.Monthly)
                     billPay.ScheduleTimeUtc = billPay.ScheduleTimeUtc.AddMonths(1);

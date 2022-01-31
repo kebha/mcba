@@ -52,4 +52,17 @@ public class CustomerManager
     {
         return _context.Transactions.Where(x => x.AccountID == id).ToList();
     }
+
+    //BillPay
+    public IEnumerable<BillPay> GetBillPays()
+    {
+        return _context.BillPays.ToList();
+    }
+
+    public void UpdateBillPay(int id, bool status)
+    {
+        var billPay = _context.BillPays.Find(id);
+        billPay.Blocked = status;
+        _context.SaveChanges();
+    }
 }

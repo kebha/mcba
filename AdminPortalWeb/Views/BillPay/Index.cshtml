@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BillPay>
+
+<h1>Transaction History</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BillPayID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayeeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScheduleTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Period)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillPayID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayeeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @item.ScheduleTimeUtc.ToLocalTime()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Period)
+            </td>
+            <td>
+                @if (item.Blocked)
+                {
+                    <a asp-action="UnBlock" asp-route-id="@item.BillPayID">Unblock Bill</a>
+                }
+                @if (!item.Blocked)
+                {
+                    <a asp-action="Block" asp-route-id="@item.BillPayID">Block Bill</a>
+                }
+                
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
