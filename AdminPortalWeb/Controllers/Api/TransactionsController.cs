@@ -7,16 +7,17 @@ namespace AdminPortalWeb.Api.Controllers;
 // This class was built off of code from Lectorial 9
 [ApiController]
 [Route("api/[controller]")]
-public class AdminController : ControllerBase
+public class TransactionsController : ControllerBase
 {
     private readonly CustomerManager _repo;
 
-    public AdminController(CustomerManager repo)
+    public TransactionsController(CustomerManager repo)
     {
         _repo = repo;
     }
 
-    // GET api/transactions/1
+    // GET api/transactions/1/DateTime/DateTime
+    // Gets all Transactions from the specified account
     [HttpGet("{id}")]
     public IEnumerable<Transaction> Get(int id)
     {

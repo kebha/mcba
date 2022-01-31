@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Transaction>
+
+<h1>Transaction History</h1>
+
+@if (!Model.Any())
+{
+    <h5>There were no transaction during this period.</h5>
+}
+@if (Model.Any())
+{
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationAccountID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionTimeUtc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationAccountID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionTimeUtc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+<div>
+    <a asp-action="Index">Back to Account selection</a>
+</div>

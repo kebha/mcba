@@ -16,6 +16,7 @@ public class AccountsController : ControllerBase
     }
 
     // GET: api/accounts
+    // Gets all accounts
     [HttpGet]
     public IEnumerable<Account> Get()
     {

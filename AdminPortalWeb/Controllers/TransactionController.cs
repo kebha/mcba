@@ -1,10 +1,12 @@
 ﻿using System.Text;
+using AdminPortalWeb.Filters;
 using Microsoft.AspNetCore.Mvc;
 using AdminPortalWeb.Models;
 using Newtonsoft.Json;
 
 namespace AdminPortalWeb.Controllers;
 
+//[AuthorizeCustomer]
 public class TransactionController : Controller
 {
     private readonly IHttpClientFactory _clientFactory;
@@ -14,33 +16,37 @@ public class TransactionController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var response = await Client.GetAsync("api/accounts");
-
-        if (!response.IsSuccessStatusCode)
-            throw new Exception();
-
-        // Storing the response details received from web api.
-        var result = await response.Content.ReadAsStringAsync();
-
-        // Deserializing the response received from web api and storing into a list.
-        var accounts = JsonConvert.DeserializeObject<List<Account>>(result);
-
-        return View(accounts);
-    }
-
-    public async Task<IActionResult> SelectPeriod(int id)
-    {
-        return View();
-    }
-
-    /*[HttpPost]
-    public async Task<IActionResult> SelectPeriod(int id, D)
-    {
+        //get accounts
         var response = await Client.GetStringAsync("api/accounts");
-
-        // Deserializing the response received from web api and storing into a list.
         var accounts = JsonConvert.DeserializeObject<List<Account>>(response);
 
         return View(accounts);
-    }*/
+    }
+
+    public async Task<IActionResult> SelectPeriod(int id) => View(new SelectPeriodModel {AccountID = id});
+
+    [HttpPost]
+    public async Task<IActionResult> SelectPeriod(SelectPeriodModel period)
+    {
+        return RedirectToAction(nameof(History), period);
+    }
+
+    public async Task<IActionResult> History(SelectPeriodModel period)
+    {
+        //get transactions of selected account
+        var response = await Client.GetStringAsync($"api/transactions/{period.AccountID}");
+        var transactions = JsonConvert.DeserializeObject<List<Transaction>>(response);
+
+        //convert time to local time
+        foreach (var transaction in transactions)
+            transaction.TransactionTimeUtc = transaction.TransactionTimeUtc.ToLocalTime();
+
+        //filter period
+        if (period.StartDate != null)
+            transactions.RemoveAll(x => x.TransactionTimeUtc < period.StartDate);
+        if (period.EndDate != null)
+            transactions.RemoveAll(x => x.TransactionTimeUtc > period.EndDate);
+
+        return View(transactions);
+    } 
 }
