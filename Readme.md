@@ -5,6 +5,8 @@ Student ID: s3844648
 
 Github URL: https://github.com/rmit-wdt-fs-2022/s3844648-a1
 
+Note: Branches were merged but do not look merged as they were rebased when merged
+
 <h1>Description</h1>
 The purpose of this project is to create a internet banking website for the 'Most Common Bank of Australia'.
 On completion a customer of this bank will have the ability to check account balance and transaction history,

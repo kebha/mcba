@@ -17,16 +17,16 @@
                 <td>@Html.DisplayFor(x => account.AccountType)</td>
                 <td>@Html.DisplayFor(x => account.Balance)</td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Deposit" asp-route-id="@account.AccountID">Deposit</a>
+                    <a class="btn btn-success" asp-action="Deposit" asp-route-id="@account.AccountID">Deposit</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Withdraw" asp-route-id="@account.AccountID">Withdraw</a>
+                    <a class="btn btn-danger" asp-action="Withdraw" asp-route-id="@account.AccountID">Withdraw</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Transfer" asp-route-id="@account.AccountID">Transfer</a>
+                    <a class="btn btn-warning" asp-action="Transfer" asp-route-id="@account.AccountID">Transfer</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="MyStatements" asp-route-id="@account.AccountID">My Statement</a>
+                    <a class="btn btn-info" asp-action="MyStatements" asp-route-id="@account.AccountID">My Statement</a>
                 </td>
             </tr>
         }
