@@ -1,10 +1,8 @@
-# Restore
+# MCBA
 
 ![Blazor](https://img.shields.io/badge/blazor-%235C2D91.svg?style=for-the-badge&logo=blazor&logoColor=white)
 ![ASP.NET Core](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
-
-## Description
 
 The purpose of this project is to create a internet banking website for the 'Most Common Bank of Australia'.
 On completion a customer of this bank will have the ability to check account balance and transaction history,
